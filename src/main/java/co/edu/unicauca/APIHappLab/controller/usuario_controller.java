@@ -2,8 +2,9 @@ package co.edu.unicauca.APIHappLab.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,11 +31,11 @@ public class usuario_controller {
 		return service.findPersonaByEmail(Email);
 	}
 	@PostMapping("/registro")
-	public persona create(@Validated @RequestBody persona body_persona) {
+	public persona create(@Valid @RequestBody persona body_persona) {
 		return service.create(body_persona);
 	}
 	@PutMapping("/Update")
-	public persona updatePersona(@Validated @RequestBody persona body_persona) {
+	public persona updatePersona(@Valid @RequestBody persona body_persona) {
 		return service.update(body_persona);
 	}
 }

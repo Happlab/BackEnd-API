@@ -2,6 +2,11 @@ package co.edu.unicauca.APIHappLab.model;
 
 import java.util.ArrayList;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -12,12 +17,26 @@ public class persona {
 	@Id
 	private String id_usuario;
 	@Indexed(unique=true, direction=IndexDirection.DESCENDING, dropDups=true)
+	@Email
+	@NotBlank(message="campo email obligatorio")
+	@NotEmpty(message="campo email obligatorio")
 	private String email;
+	@NotBlank(message="campo password obligatorio")
+	@NotEmpty(message="campo password obligatorio")
 	private String password;
+	@Indexed(unique=true, direction=IndexDirection.DESCENDING, dropDups=true)
+	@NotNull(message="campo cedula obligatorio")
 	private Long cedula;
+	@NotBlank(message="campo nombres obligatorio")
+	@NotEmpty(message="campo nombres obligatorio")
 	private String nombres;
+	@NotBlank(message="campo nombres obligatorio")
+	@NotEmpty(message="campo nombres obligatorio")
 	private String apellidos;
+	@NotBlank(message="campo rol obligatorio")
+	@NotEmpty(message="campo rol obligatorio")
 	private String rol;
+	@NotNull
 	private int tokens;
 	
 	public persona() {
