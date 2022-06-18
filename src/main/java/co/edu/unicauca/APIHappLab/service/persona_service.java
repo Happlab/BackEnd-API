@@ -4,10 +4,6 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +11,7 @@ import co.edu.unicauca.APIHappLab.model.persona;
 import co.edu.unicauca.APIHappLab.repository.I_persona_repository;
 
 @Service
-public class persona_service implements UserDetailsService{
+public class persona_service{
 	
 	@Autowired
 	private I_persona_repository repo;
@@ -44,15 +40,11 @@ public class persona_service implements UserDetailsService{
 		return this.repo.findAll();
 	}
 	
-	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		final persona customer = repo.findByEmail(username);
-        if (customer == null) {
-            throw new UsernameNotFoundException(username);
-        }
-        UserDetails user = User.withUsername(customer.getEmail()).password(customer.getPassword()).authorities("USER").build();
-        return user;
+	public persona login(String email,String password) {
+		final persona customer = repo.findByEmail(email);
+		if (encoder.matches(password, customer.getPassword())) {
+			return customer;
+		}
+		return (persona) null;
 	}
-
-	
 }

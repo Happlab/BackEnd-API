@@ -25,11 +25,11 @@ public class usuario_controller {
 	@GetMapping("/")
 	public List<persona> readAll(){
 		return service.findAll();
-	}
+	}/*
 	@GetMapping("/{Email}")
 	public persona findbyEmail(@PathVariable String Email){
 		return service.findPersonaByEmail(Email);
-	}
+	}*/
 	@PostMapping("/registro")
 	public persona create(@Valid @RequestBody persona body_persona) {
 		return service.create(body_persona);
@@ -37,5 +37,10 @@ public class usuario_controller {
 	@PutMapping("/Update")
 	public persona updatePersona(@Valid @RequestBody persona body_persona) {
 		return service.update(body_persona);
+	}
+	
+	@GetMapping("/Login/{Email}&{Contraseña}")
+	public persona login(@PathVariable String Email,@PathVariable String Contraseña) {
+		return service.login(Email, Contraseña);
 	}
 }
