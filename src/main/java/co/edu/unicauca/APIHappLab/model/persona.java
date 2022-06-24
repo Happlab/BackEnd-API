@@ -1,8 +1,7 @@
 package co.edu.unicauca.APIHappLab.model;
 
-import java.util.ArrayList;
-
 import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -11,6 +10,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+
+import co.edu.unicauca.APIHappLab.DTO.persona_dto;
 
 @Document(collection = "persona")
 public class persona {
@@ -24,6 +25,7 @@ public class persona {
 	@NotBlank(message="campo password obligatorio")
 	@NotEmpty(message="campo password obligatorio")
 	private String password;
+	@Min(value=0)
 	@Indexed(unique=true, direction=IndexDirection.DESCENDING, dropDups=true)
 	@NotNull(message="campo cedula obligatorio")
 	private Long cedula;
@@ -43,10 +45,9 @@ public class persona {
 		
 	}
 
-	public persona(String id_usuario, String email, String password, Long cedula, String nombres, String apellidos,
-			String rol, ArrayList<contenido> contenidos, int tokens) {
+	public persona(String email, String password, Long cedula, String nombres, String apellidos,
+			String rol, int tokens) {
 		super();
-		this.id_usuario = id_usuario;
 		this.email = email;
 		this.password = password;
 		this.cedula = cedula;
@@ -54,6 +55,10 @@ public class persona {
 		this.apellidos = apellidos;
 		this.rol = rol;
 		this.tokens = tokens;
+	}
+	
+	public persona_dto to_persona_dto() {
+		return new persona_dto(this.email,this.password,this.cedula,this.nombres,this.apellidos,this.rol,this.tokens);
 	}
 
 	public String getId_usuario() {

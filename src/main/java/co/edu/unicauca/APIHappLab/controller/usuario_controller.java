@@ -5,6 +5,7 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.unicauca.APIHappLab.DTO.persona_dto;
 import co.edu.unicauca.APIHappLab.model.persona;
 import co.edu.unicauca.APIHappLab.service.persona_service;
 
@@ -33,12 +35,14 @@ public class usuario_controller {
 		return service.findPersonaByEmail(Email);
 	}*/
 	@PostMapping("/registro")
-	public persona create(@Valid @RequestBody persona body_persona) {
-		return service.create(body_persona);
+	public persona_dto create(@Valid @RequestBody persona_dto dto,BindingResult b_result) {
+		return service.create(dto.to_persona()).to_persona_dto();
 	}
 	@PutMapping("/Update")
-	public persona updatePersona(@Valid @RequestBody persona body_persona) {
-		return service.update(body_persona);
+	public persona updatePersona(@Valid @RequestBody persona_dto dto, BindingResult bindingResult) {
+		persona obj_persona = dto.to_persona();
+		obj_persona.setId_usuario(service.findPersonaByEmail(dto.getEmail()).getId_usuario());
+		return service.update(obj_persona);
 	}
 	
 	@GetMapping("/Login/{Email}&{Contraseña}")

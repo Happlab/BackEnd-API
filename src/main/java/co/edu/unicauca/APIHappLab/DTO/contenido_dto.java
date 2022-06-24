@@ -1,20 +1,13 @@
-package co.edu.unicauca.APIHappLab.model;
+package co.edu.unicauca.APIHappLab.DTO;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
-import org.springframework.data.mongodb.core.mapping.Document;
+import co.edu.unicauca.APIHappLab.model.contenido;
 
-import co.edu.unicauca.APIHappLab.DTO.contenido_dto;
+public class contenido_dto {
 
-@Document(collection = "contenido")
-public class contenido {
-	@Id
-	private String id_contenido;
-	@DBRef(lazy=true)
-	private persona id_autor;
+	private String email_autor;
 	private Date fecha_subida;
 	private String link;
 	private String resumen;
@@ -22,14 +15,12 @@ public class contenido {
 	private ArrayList<String> tags;
 	private String valoracion_general;
 	
-	public contenido() {
-		// TODO Auto-generated constructor stub
-	}
-
-	public contenido(persona id_autor, Date fecha_subida, String link, String resumen,
-			ArrayList<String> autores, ArrayList<String> tags, String valoracion_general) {
+	public contenido_dto() {}
+	
+	public contenido_dto(String email_autor, Date fecha_subida, String link, String resumen, ArrayList<String> autores,
+			ArrayList<String> tags, String valoracion_general) {
 		super();
-		this.id_autor = id_autor;
+		this.email_autor = email_autor;
 		this.fecha_subida = fecha_subida;
 		this.link = link;
 		this.resumen = resumen;
@@ -37,69 +28,49 @@ public class contenido {
 		this.tags = tags;
 		this.valoracion_general = valoracion_general;
 	}
-	public contenido_dto to_contenido_dto(){
-		return new contenido_dto( id_autor.getEmail() , fecha_subida, link, resumen, autores, tags, valoracion_general);
+	public contenido to_contenido(){
+		return new contenido( null , fecha_subida, link, resumen, autores, tags, valoracion_general);
 	}
-	public String getId_contenido() {
-		return id_contenido;
+	
+	public String getEmail_autor() {
+		return email_autor;
 	}
-
-	public void setId_contenido(String id_contenido) {
-		this.id_contenido = id_contenido;
+	public void setEmail_autor(String email_autor) {
+		this.email_autor = email_autor;
 	}
-
-	public persona getId_autor() {
-		return id_autor;
-	}
-
-	public void setId_autor(persona id_autor) {
-		this.id_autor = id_autor;
-	}
-
 	public Date getFecha_subida() {
 		return fecha_subida;
 	}
-
 	public void setFecha_subida(Date fecha_subida) {
 		this.fecha_subida = fecha_subida;
 	}
-
 	public String getLink() {
 		return link;
 	}
-
 	public void setLink(String link) {
 		this.link = link;
 	}
-
 	public String getResumen() {
 		return resumen;
 	}
-
 	public void setResumen(String resumen) {
 		this.resumen = resumen;
 	}
-
 	public ArrayList<String> getAutores() {
 		return autores;
 	}
-
 	public void setAutores(ArrayList<String> autores) {
 		this.autores = autores;
 	}
-
 	public ArrayList<String> getTags() {
 		return tags;
 	}
-
 	public void setTags(ArrayList<String> tags) {
 		this.tags = tags;
 	}
-
 	public String getValoracion_general() {
 		return valoracion_general;
 	}
-
 	public void setValoracion_general(String valoracion_general) {
 		this.valoracion_general = valoracion_general;
 	}

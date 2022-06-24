@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.edu.unicauca.APIHappLab.DTO.contenido_dto;
 import co.edu.unicauca.APIHappLab.model.contenido;
 import co.edu.unicauca.APIHappLab.service.contenido_service;
+import co.edu.unicauca.APIHappLab.service.persona_service;
 
 @RestController
 @RequestMapping("/contenido")
@@ -24,8 +26,8 @@ public class contenido_controller {
 		
 		@Autowired
 		private contenido_service service;
-		
-		
+		@Autowired
+		private persona_service p_service;
 		@GetMapping("/")
 		public List<contenido> readAll(){
 			return service.findAll();
@@ -35,8 +37,10 @@ public class contenido_controller {
 			return service.findbyId(contenido_id);
 		}
 		@PostMapping("/create")
-		public contenido create(@Validated @RequestBody contenido body_contenido) {
-			return service.create(body_contenido);
+		public contenido_dto create(@Validated @RequestBody contenido_dto dto) {
+			contenido obj_contenido = dto.to_contenido();
+			obj_contenido.setId_autor(p_service.findPersonaByEmail(dto.getEmail_autor()));
+			return service.create(obj_contenido).to_contenido_dto();
 		}
 		@PutMapping("/Update")
 		public contenido update(@Validated @RequestBody contenido body_contenido) {
