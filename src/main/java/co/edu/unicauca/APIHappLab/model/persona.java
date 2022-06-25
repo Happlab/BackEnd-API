@@ -40,13 +40,14 @@ public class persona {
 	private String rol;
 	@NotNull
 	private int tokens;
+	private boolean activo;
 	
 	public persona() {
 		
 	}
 
 	public persona(String email, String password, Long cedula, String nombres, String apellidos,
-			String rol, int tokens) {
+			String rol, int tokens,boolean activo) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -55,8 +56,17 @@ public class persona {
 		this.apellidos = apellidos;
 		this.rol = rol;
 		this.tokens = tokens;
+		this.activo = activo;
 	}
 	
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+
 	public persona_dto to_persona_dto() {
 		return new persona_dto(this.email,this.password,this.cedula,this.nombres,this.apellidos,this.rol,this.tokens);
 	}

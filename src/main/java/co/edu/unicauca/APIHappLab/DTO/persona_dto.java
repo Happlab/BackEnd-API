@@ -10,6 +10,7 @@ public class persona_dto {
 	private String apellidos;
 	private String rol;
 	private int tokens;
+	private boolean activo;
 	
 	public persona_dto() {
 		// TODO Auto-generated constructor stub
@@ -26,7 +27,7 @@ public class persona_dto {
 		this.tokens = tokens;
 	}
 	public persona to_persona() {
-		return new persona(email, password, cedula, nombres, apellidos, rol, tokens);
+		return new persona(email, password, cedula, nombres, apellidos, rol, tokens,activo);
 	}
 	
 	public String getEmail() {
