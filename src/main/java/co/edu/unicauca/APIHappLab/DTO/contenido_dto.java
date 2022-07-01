@@ -3,13 +3,14 @@ package co.edu.unicauca.APIHappLab.DTO;
 import java.util.ArrayList;
 import java.util.Date;
 
-import co.edu.unicauca.APIHappLab.model.contenido;
+import org.springframework.web.multipart.MultipartFile;
 
+import co.edu.unicauca.APIHappLab.model.contenido;
 public class contenido_dto {
 
 	private String email_autor;
 	private Date fecha_subida;
-	private String link;
+	private MultipartFile archivo;
 	private String resumen;
 	private ArrayList<String> autores;
 	private ArrayList<String> tags;
@@ -17,19 +18,19 @@ public class contenido_dto {
 	
 	public contenido_dto() {}
 	
-	public contenido_dto(String email_autor, Date fecha_subida, String link, String resumen, ArrayList<String> autores,
+	public contenido_dto(String email_autor, Date fecha_subida, MultipartFile archivo, String resumen, ArrayList<String> autores,
 			ArrayList<String> tags, String valoracion_general) {
 		super();
 		this.email_autor = email_autor;
 		this.fecha_subida = fecha_subida;
-		this.link = link;
+		this.archivo = archivo;
 		this.resumen = resumen;
 		this.autores = autores;
 		this.tags = tags;
 		this.valoracion_general = valoracion_general;
 	}
 	public contenido to_contenido(){
-		return new contenido( null , fecha_subida, link, resumen, autores, tags, valoracion_general);
+		return new contenido( null , fecha_subida, archivo.getName(), resumen, autores, tags, valoracion_general);
 	}
 	
 	public String getEmail_autor() {
@@ -44,11 +45,11 @@ public class contenido_dto {
 	public void setFecha_subida(Date fecha_subida) {
 		this.fecha_subida = fecha_subida;
 	}
-	public String getLink() {
-		return link;
+	public MultipartFile getArchivo() {
+		return archivo;
 	}
-	public void setLink(String link) {
-		this.link = link;
+	public void setArchivo(MultipartFile archivo) {
+		this.archivo = archivo;
 	}
 	public String getResumen() {
 		return resumen;

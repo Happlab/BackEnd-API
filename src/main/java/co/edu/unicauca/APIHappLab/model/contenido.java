@@ -18,23 +18,19 @@ public class contenido {
 	private String id_contenido;
 	@DBRef(lazy=true)
 	private persona id_autor;
-	@NotBlank(message="campo password obligatorio")
-	@NotEmpty(message="campo password obligatorio")
+	@NotBlank(message="campo fecha obligatorio")
+	@NotEmpty(message="campo fecha obligatorio")
 	private Date fecha_subida;
-	@NotBlank(message="campo password obligatorio")
-	@NotEmpty(message="campo password obligatorio")
+	@NotBlank(message="campo link obligatorio")
+	@NotEmpty(message="campo link obligatorio")
 	private String link;
-	@NotBlank(message="campo password obligatorio")
-	@NotEmpty(message="campo password obligatorio")
+	@NotBlank(message="campo resumen obligatorio")
+	@NotEmpty(message="campo resumen obligatorio")
 	private String resumen;
-	@NotBlank(message="campo password obligatorio")
-	@NotEmpty(message="campo password obligatorio")
+	@NotBlank(message="campo autores obligatorio")
+	@NotEmpty(message="campo autores obligatorio")
 	private ArrayList<String> autores;
-	@NotBlank(message="campo password obligatorio")
-	@NotEmpty(message="campo password obligatorio")
 	private ArrayList<String> tags;
-	@NotBlank(message="campo password obligatorio")
-	@NotEmpty(message="campo password obligatorio")
 	private String valoracion_general;
 	
 	public contenido() {
@@ -53,7 +49,7 @@ public class contenido {
 		this.valoracion_general = valoracion_general;
 	}
 	public contenido_dto to_contenido_dto(){
-		return new contenido_dto( id_autor.getEmail() , fecha_subida, link, resumen, autores, tags, valoracion_general);
+		return new contenido_dto( id_autor.getEmail() , fecha_subida, null , resumen, autores, tags, valoracion_general);
 	}
 	public String getId_contenido() {
 		return id_contenido;

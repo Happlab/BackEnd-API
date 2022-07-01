@@ -32,8 +32,8 @@ public class persona {
 	@NotBlank(message="campo nombres obligatorio")
 	@NotEmpty(message="campo nombres obligatorio")
 	private String nombres;
-	@NotBlank(message="campo nombres obligatorio")
-	@NotEmpty(message="campo nombres obligatorio")
+	@NotBlank(message="campo apellidos obligatorio")
+	@NotEmpty(message="campo apellidos obligatorio")
 	private String apellidos;
 	@NotBlank(message="campo rol obligatorio")
 	@NotEmpty(message="campo rol obligatorio")
