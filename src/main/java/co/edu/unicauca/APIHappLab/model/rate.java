@@ -1,5 +1,9 @@
 package co.edu.unicauca.APIHappLab.model;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -12,7 +16,10 @@ public class rate {
 	private persona id_persona;
 	@DBRef
 	private contenido id_contenido;
+	@NotBlank(message="campo password obligatorio")
+	@NotEmpty(message="campo password obligatorio")
 	private int valoracion;
+	@NotNull
 	private String comentarios;
 	public rate() {
 		// TODO Auto-generated constructor stub

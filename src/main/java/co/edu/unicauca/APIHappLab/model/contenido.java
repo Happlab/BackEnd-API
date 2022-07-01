@@ -3,6 +3,9 @@ package co.edu.unicauca.APIHappLab.model;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,11 +18,23 @@ public class contenido {
 	private String id_contenido;
 	@DBRef(lazy=true)
 	private persona id_autor;
+	@NotBlank(message="campo password obligatorio")
+	@NotEmpty(message="campo password obligatorio")
 	private Date fecha_subida;
+	@NotBlank(message="campo password obligatorio")
+	@NotEmpty(message="campo password obligatorio")
 	private String link;
+	@NotBlank(message="campo password obligatorio")
+	@NotEmpty(message="campo password obligatorio")
 	private String resumen;
+	@NotBlank(message="campo password obligatorio")
+	@NotEmpty(message="campo password obligatorio")
 	private ArrayList<String> autores;
+	@NotBlank(message="campo password obligatorio")
+	@NotEmpty(message="campo password obligatorio")
 	private ArrayList<String> tags;
+	@NotBlank(message="campo password obligatorio")
+	@NotEmpty(message="campo password obligatorio")
 	private String valoracion_general;
 	
 	public contenido() {

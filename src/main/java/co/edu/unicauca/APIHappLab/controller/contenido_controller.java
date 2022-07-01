@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unicauca.APIHappLab.DTO.contenido_dto;
 import co.edu.unicauca.APIHappLab.model.contenido;
+import co.edu.unicauca.APIHappLab.model.persona;
 import co.edu.unicauca.APIHappLab.service.contenido_service;
 import co.edu.unicauca.APIHappLab.service.persona_service;
 
@@ -39,7 +40,13 @@ public class contenido_controller {
 		@PostMapping("/create")
 		public contenido_dto create(@Validated @RequestBody contenido_dto dto) {
 			contenido obj_contenido = dto.to_contenido();
-			obj_contenido.setId_autor(p_service.findPersonaByEmail(dto.getEmail_autor()));
+			persona auth;
+			try {
+				auth = p_service.findPersonaByEmail(dto.getEmail_autor());	
+				obj_contenido.setId_autor(auth);
+			}catch(Exception ex){
+				return null;
+			}
 			return service.create(obj_contenido).to_contenido_dto();
 		}
 		@PutMapping("/Update")
