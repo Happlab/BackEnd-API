@@ -18,8 +18,6 @@ public class contenido {
 	private String id_contenido;
 	@DBRef(lazy=true)
 	private persona id_autor;
-	@NotBlank(message="campo fecha obligatorio")
-	@NotEmpty(message="campo fecha obligatorio")
 	private Date fecha_subida;
 	@NotBlank(message="campo link obligatorio")
 	@NotEmpty(message="campo link obligatorio")
@@ -27,7 +25,6 @@ public class contenido {
 	@NotBlank(message="campo resumen obligatorio")
 	@NotEmpty(message="campo resumen obligatorio")
 	private String resumen;
-	@NotBlank(message="campo autores obligatorio")
 	@NotEmpty(message="campo autores obligatorio")
 	private ArrayList<String> autores;
 	private ArrayList<String> tags;

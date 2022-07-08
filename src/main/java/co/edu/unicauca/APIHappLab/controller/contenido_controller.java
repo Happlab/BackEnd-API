@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -28,7 +29,8 @@ import co.edu.unicauca.APIHappLab.service.persona_service;
 @RequestMapping("/contenido")
 @CrossOrigin(origins= "http://localhost:8080")
 public class contenido_controller {
-		private Path carpeta_root = Paths.get("/Files/");
+	
+		private Path carpeta_root = Paths.get("C:\\Users\\DAAC\\Documents\\GitHub\\BackEnd-API\\Files");
 		@Autowired
 		private contenido_service service;
 		@Autowired
@@ -42,7 +44,7 @@ public class contenido_controller {
 			return service.findbyId(contenido_id);
 		}
 		@PostMapping("/create")
-		public contenido_dto create(@Validated @RequestBody contenido_dto dto) {
+		public contenido_dto create(@ModelAttribute contenido_dto dto) {
 			MultipartFile archivo = dto.getArchivo();
 			try {
 				Files.copy(archivo.getInputStream(), this.carpeta_root.resolve(archivo.getOriginalFilename()));
