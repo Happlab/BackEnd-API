@@ -40,7 +40,7 @@ public class contenido_controller {
 			return service.findAll();
 		}
 		@GetMapping("/{contenido_id}")
-		public Optional<contenido> findbyId(@PathVariable Long contenido_id){
+		public Optional<contenido> findbyId(@PathVariable String contenido_id){
 			return service.findbyId(contenido_id);
 		}
 		@PostMapping("/create")

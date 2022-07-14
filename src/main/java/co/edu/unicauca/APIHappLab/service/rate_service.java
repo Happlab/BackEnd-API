@@ -24,7 +24,7 @@ public class rate_service {
 	public List<rate> findAll() {
 		return repo.findAll();
 	}
-	public Optional<rate> findbyId(Long id_rate) {
+	public Optional<rate> findbyId(String id_rate) {
 		return repo.findById(id_rate);
 	}
 	public rate update(rate body_rate) {

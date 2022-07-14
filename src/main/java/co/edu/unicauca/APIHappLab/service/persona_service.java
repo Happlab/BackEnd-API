@@ -3,7 +3,6 @@ package co.edu.unicauca.APIHappLab.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -22,7 +21,7 @@ public class persona_service{
 		super();
 		this.encoder = new BCryptPasswordEncoder();
 	}
-	public Optional<persona> findById(ObjectId id_persona){
+	public Optional<persona> findById(String id_persona){
 		return repo.findById(id_persona);
 	}
 	public persona create(persona par_persona) {

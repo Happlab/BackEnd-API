@@ -1,5 +1,7 @@
 package co.edu.unicauca.APIHappLab.model;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -21,9 +23,13 @@ public class rate {
 	private int valoracion;
 	@NotNull
 	private String comentarios;
+	@NotNull
+	private Date fecha_calificacion;
+	
 	public rate() {
 		// TODO Auto-generated constructor stub
 	}
+
 	public rate(String id_rate, persona id_persona, contenido id_contenido, int valoracion, String comentarios) {
 		super();
 		this.id_rate = id_rate;
@@ -31,6 +37,14 @@ public class rate {
 		this.id_contenido = id_contenido;
 		this.valoracion = valoracion;
 		this.comentarios = comentarios;
+	}
+	
+	public Date getFecha_calificacion() {
+		return fecha_calificacion;
+	}
+
+	public void setFecha_calificacion(Date fecha_calificacion) {
+		this.fecha_calificacion = fecha_calificacion;
 	}
 	public String getId_rate() {
 		return id_rate;

@@ -29,6 +29,8 @@ public class contenido {
 	private ArrayList<String> autores;
 	private ArrayList<String> tags;
 	private String valoracion_general;
+	private boolean visible;
+	private boolean pendiente;
 	
 	public contenido() {
 		// TODO Auto-generated constructor stub
@@ -48,6 +50,23 @@ public class contenido {
 	public contenido_dto to_contenido_dto(){
 		return new contenido_dto( id_autor.getEmail() , fecha_subida, null , resumen, autores, tags, valoracion_general);
 	}
+
+	public boolean isVisible() {
+		return visible;
+	}
+
+	public void setVisible(boolean visible) {
+		this.visible = visible;
+	}
+
+	public boolean isPendiente() {
+		return pendiente;
+	}
+
+	public void setPendiente(boolean pendiente) {
+		this.pendiente = pendiente;
+	}
+
 	public String getId_contenido() {
 		return id_contenido;
 	}

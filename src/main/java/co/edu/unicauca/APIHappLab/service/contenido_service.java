@@ -22,7 +22,7 @@ public class contenido_service {
 	public List<contenido> findAll() {
 		return repo.findAll();
 	}
-	public Optional<contenido> findbyId(Long contenido_id) {
+	public Optional<contenido> findbyId(String contenido_id) {
 		return repo.findById(contenido_id);
 	}
 

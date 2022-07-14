@@ -14,31 +14,31 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.edu.unicauca.APIHappLab.model.rate;
-import co.edu.unicauca.APIHappLab.service.rate_service;
+import co.edu.unicauca.APIHappLab.model.noticia;
+import co.edu.unicauca.APIHappLab.service.noticia_service;
 
 @RestController
 @RequestMapping("/rate")
 @CrossOrigin(origins= "http://localhost:8080")
-public class rate_controller {
-	
+public class noticia_controller {
 	@Autowired
-	private rate_service service;
+	private noticia_service service;
 	
 	@GetMapping("/")
-	public List<rate> readAll(){
+	public List<noticia> readAll(){
 		return service.findAll();
 	}
 	@GetMapping("/{rate_id}")
-	public Optional<rate> findbyId(@PathVariable String rate_id){
-		return service.findbyId(rate_id);
+	public Optional<noticia> findbyId(@PathVariable String noticia_id){
+		return service.findById(noticia_id);
 	}
 	@PostMapping("/create")
-	public rate create(@Validated @RequestBody rate body_rate) {
-		return service.create(body_rate);
+	public noticia create(@Validated @RequestBody noticia body_noticia) {
+		return service.create(body_noticia);
 	}
 	@PutMapping("/Update")
-	public rate updateRate(@Validated @RequestBody rate body_rate) {
-		return service.update(body_rate);
+	public noticia updateRate(@Validated @RequestBody noticia body_noticia) {
+		return service.update(body_noticia);
 	}
+
 }

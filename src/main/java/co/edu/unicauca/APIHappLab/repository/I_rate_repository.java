@@ -5,4 +5,4 @@ import org.springframework.stereotype.Repository;
 
 import co.edu.unicauca.APIHappLab.model.rate;
 @Repository
-public interface I_rate_repository extends MongoRepository<rate, Long>{}
+public interface I_rate_repository extends MongoRepository<rate, String>{}

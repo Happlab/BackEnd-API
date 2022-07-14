@@ -40,7 +40,10 @@ public class persona {
 	private String rol;
 	@NotNull
 	private int tokens;
+	@NotNull
 	private boolean activo;
+	@NotNull
+	private boolean pendiente;
 	
 	public persona() {
 		
@@ -65,6 +68,14 @@ public class persona {
 
 	public void setActivo(boolean activo) {
 		this.activo = activo;
+	}
+
+	public boolean isPendiente() {
+		return pendiente;
+	}
+
+	public void setPendiente(boolean pendiente) {
+		this.pendiente = pendiente;
 	}
 
 	public persona_dto to_persona_dto() {
