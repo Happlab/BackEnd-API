@@ -18,7 +18,7 @@ import co.edu.unicauca.APIHappLab.model.noticia;
 import co.edu.unicauca.APIHappLab.service.noticia_service;
 
 @RestController
-@RequestMapping("/rate")
+@RequestMapping("/noticia")
 @CrossOrigin(origins= "http://localhost:8080")
 public class noticia_controller {
 	@Autowired
@@ -28,7 +28,7 @@ public class noticia_controller {
 	public List<noticia> readAll(){
 		return service.findAll();
 	}
-	@GetMapping("/{rate_id}")
+	@GetMapping("/{noticia_id}")
 	public Optional<noticia> findbyId(@PathVariable String noticia_id){
 		return service.findById(noticia_id);
 	}
