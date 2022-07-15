@@ -45,13 +45,13 @@ public class usuario_controller {
 		obj_persona.setId_usuario(service.findPersonaByEmail(dto.getEmail()).getId_usuario());
 		return service.update(obj_persona);
 	}
-	@DeleteMapping("/desactivar/{email}")
+	@DeleteMapping("/desactivar/{Email}")
 	public void desactivar(@PathVariable String Email) {
 		persona obj_persona = service.findPersonaByEmail(Email);
 		obj_persona.setActivo(false);
 		service.update(obj_persona);
 	}
-	@DeleteMapping("/delete/{email}")
+	@DeleteMapping("/delete/{Email}")
 	public void delete(@PathVariable String Email) {
 		service.deleteByEmail(Email);
 	}
