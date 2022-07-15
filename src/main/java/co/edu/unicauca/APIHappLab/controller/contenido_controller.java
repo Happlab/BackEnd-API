@@ -1,5 +1,6 @@
 package co.edu.unicauca.APIHappLab.controller;
 
+import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -8,6 +9,11 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,7 +36,7 @@ import co.edu.unicauca.APIHappLab.service.persona_service;
 @RequestMapping("/contenido")
 @CrossOrigin(origins= "http://localhost:8080")
 public class contenido_controller {
-	
+		
 		private Path carpeta_root = Paths.get("C:\\Users\\DAAC\\Documents\\GitHub\\BackEnd-API\\Files");
 		@Autowired
 		private contenido_service service;
@@ -44,9 +50,20 @@ public class contenido_controller {
 		public Optional<contenido> findbyId(@PathVariable String contenido_id){
 			return service.findbyId(contenido_id);
 		}
-		@GetMapping("/download/{contenido_id}")
-		public Optional<contenido> downloadbyId(@PathVariable String contenido_id){
-			return service.findbyId(contenido_id);
+		@GetMapping("/download/{contenido_link}")
+		public ResponseEntity<Resource> downloadbyId(@PathVariable String contenido_link) throws MalformedURLException{
+			try {
+				Path archivo = carpeta_root.resolve(contenido_link);
+				Resource resource = new UrlResource(archivo.toUri());
+				if(resource.isFile() || resource.isReadable()) {
+					return ResponseEntity.ok().contentType(MediaType.MULTIPART_FORM_DATA).
+							header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\""+resource.getFilename()+"\"").body(resource);	
+				}
+				return ResponseEntity.notFound().build();
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.notFound().build();
+				}
 		}
 		@PostMapping("/create")
 		public contenido create(@ModelAttribute contenido_dto dto) {
@@ -63,7 +80,7 @@ public class contenido_controller {
 			try {
 				String nombre_archivo = ""+obj_contenido.getId_autor().getId_usuario()+obj_contenido.getFecha_subida().getTime()+archivo.getOriginalFilename();
 				Files.copy(archivo.getInputStream(), this.carpeta_root.resolve(nombre_archivo));
-				obj_contenido.setLink(carpeta_root.toString()+"\\"+nombre_archivo);
+				obj_contenido.setLink(nombre_archivo);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
