@@ -44,6 +44,10 @@ public class contenido_controller {
 		public Optional<contenido> findbyId(@PathVariable String contenido_id){
 			return service.findbyId(contenido_id);
 		}
+		@GetMapping("/download/{contenido_id}")
+		public Optional<contenido> downloadbyId(@PathVariable String contenido_id){
+			return service.findbyId(contenido_id);
+		}
 		@PostMapping("/create")
 		public contenido create(@ModelAttribute contenido_dto dto) {
 			contenido obj_contenido = dto.to_contenido();
@@ -57,8 +61,9 @@ public class contenido_controller {
 			}
 			MultipartFile archivo = dto.getArchivo();
 			try {
-				Files.copy(archivo.getInputStream(), this.carpeta_root.resolve(archivo.getOriginalFilename()));
-				obj_contenido.setLink(archivo.getOriginalFilename());
+				String nombre_archivo = ""+obj_contenido.getId_autor().getId_usuario()+obj_contenido.getFecha_subida().getTime()+archivo.getOriginalFilename();
+				Files.copy(archivo.getInputStream(), this.carpeta_root.resolve(nombre_archivo));
+				obj_contenido.setLink(carpeta_root.toString()+"\\"+nombre_archivo);
 			} catch (Exception e) {
 				e.printStackTrace();
 				return null;
