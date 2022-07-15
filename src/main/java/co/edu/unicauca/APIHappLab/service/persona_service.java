@@ -54,7 +54,7 @@ public class persona_service{
 	}
 	public persona login(String email,String password) {
 		final persona customer = repo.findByEmail(email);
-		if (encoder.matches(password, customer.getPassword()) && (customer.isActivo()) ) {
+		if (encoder.matches(password, customer.getPassword())) {
 			return customer;
 		}
 		return (persona) null;
