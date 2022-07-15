@@ -10,6 +10,8 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import co.edu.unicauca.APIHappLab.DTO.rate_dto;
+
 @Document(collection = "rate")
 public class rate {
 	@Id
@@ -27,7 +29,6 @@ public class rate {
 	private Date fecha_calificacion;
 	
 	public rate() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public rate(String id_rate, persona id_persona, contenido id_contenido, int valoracion, String comentarios) {
@@ -37,6 +38,11 @@ public class rate {
 		this.id_contenido = id_contenido;
 		this.valoracion = valoracion;
 		this.comentarios = comentarios;
+	}
+	
+	public rate_dto to_rate_dto() {
+		return new rate_dto(this.id_persona.getEmail(),this.id_contenido.getId_contenido(), this.valoracion, this.comentarios, this.fecha_calificacion);
+		
 	}
 	
 	public Date getFecha_calificacion() {

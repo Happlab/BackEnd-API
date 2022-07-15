@@ -1,9 +1,59 @@
 package co.edu.unicauca.APIHappLab.DTO;
 
-public class rate_dto {
+import java.util.Date;
 
+import co.edu.unicauca.APIHappLab.model.rate;
+
+
+public class rate_dto {
+	private String email_persona;
+	private String id_contenido;
+	private int valoracion;
+	private String comentarios;
+	private Date fecha_calificacion;
 	public rate_dto() {
-		// TODO Auto-generated constructor stub
+	}
+	public rate_dto(String email_persona, String id_contenido, int valoracion, String comentarios,
+			Date fecha_calificacion) {
+		super();
+		this.email_persona = email_persona;
+		this.id_contenido = id_contenido;
+		this.valoracion = valoracion;
+		this.comentarios = comentarios;
+		this.fecha_calificacion = fecha_calificacion;
+	}
+	public rate to_rate() {
+		return new rate("",null , null, this.valoracion,this.comentarios);
+	}
+	public String getEmail_persona() {
+		return email_persona;
+	}
+	public void setEmail_persona(String email_persona) {
+		this.email_persona = email_persona;
+	}
+	public String getId_contenido() {
+		return id_contenido;
+	}
+	public void setId_contenido(String id_contenido) {
+		this.id_contenido = id_contenido;
+	}
+	public int getValoracion() {
+		return valoracion;
+	}
+	public void setValoracion(int valoracion) {
+		this.valoracion = valoracion;
+	}
+	public String getComentarios() {
+		return comentarios;
+	}
+	public void setComentarios(String comentarios) {
+		this.comentarios = comentarios;
+	}
+	public Date getFecha_calificacion() {
+		return fecha_calificacion;
+	}
+	public void setFecha_calificacion(Date fecha_calificacion) {
+		this.fecha_calificacion = fecha_calificacion;
 	}
 
 }
