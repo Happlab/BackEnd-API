@@ -45,11 +45,15 @@ public class usuario_controller {
 		obj_persona.setId_usuario(service.findPersonaByEmail(dto.getEmail()).getId_usuario());
 		return service.update(obj_persona);
 	}
-	@DeleteMapping("/delete/{email}")
-	public void delete(@PathVariable String Email) {
+	@DeleteMapping("/desactivar/{email}")
+	public void desactivar(@PathVariable String Email) {
 		persona obj_persona = service.findPersonaByEmail(Email);
 		obj_persona.setActivo(false);
 		service.update(obj_persona);
+	}
+	@DeleteMapping("/delete/{email}")
+	public void delete(@PathVariable String Email) {
+		service.deleteByEmail(Email);
 	}
 	@GetMapping("/Login/{Email}&{Contraseña}")
 	public persona login(@PathVariable String Email,@PathVariable String Contraseña) {

@@ -33,13 +33,25 @@ public class persona_service{
 		return repo.findByEmail(Email);
 	}
 	public persona update(persona par_persona) {
+		final persona customer = repo.findByEmail(par_persona.getEmail());
+		if (!encoder.matches(par_persona.getPassword(), customer.getPassword())) {
+			par_persona.setPassword(encoder.encode(par_persona.getPassword()));
+		}
 		return repo.save(par_persona);
 		
 	}
 	public List<persona> findAll(){
 		return this.repo.findAll();
 	}
-	
+	public boolean deleteByEmail(String email) {
+		try {
+			repo.deleteById(repo.findByEmail(email).getId_usuario());
+			return true;
+		}catch (Exception ex) {
+			return false;
+		}
+
+	}
 	public persona login(String email,String password) {
 		final persona customer = repo.findByEmail(email);
 		if (encoder.matches(password, customer.getPassword())) {
