@@ -41,11 +41,10 @@ public class usuario_controller {
 		return service.create(dto.to_persona()).to_persona_dto();
 	}
 	@PutMapping("/update")
-	public persona updatePersona(@Valid @RequestBody persona_dto dto, BindingResult bindingResult) {
+	public persona_dto updatePersona(@Valid @RequestBody persona_dto dto, BindingResult bindingResult) {
 		persona obj_persona = dto.to_persona();
-
 		obj_persona.setId_usuario(service.findPersonaByEmail(dto.getEmail()).getId_usuario());
-		return service.update(obj_persona);
+		return service.update(obj_persona).to_persona_dto();
 	}
 	@DeleteMapping("/desactivar/{Email}")
 	public void desactivar(@PathVariable String Email) {
