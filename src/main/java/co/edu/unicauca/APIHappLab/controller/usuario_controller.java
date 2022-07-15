@@ -37,11 +37,13 @@ public class usuario_controller {
 	}*/
 	@PostMapping("/registro")
 	public persona_dto create(@Valid @RequestBody persona_dto dto,BindingResult b_result) {
+		dto.setPendiente(true);
 		return service.create(dto.to_persona()).to_persona_dto();
 	}
 	@PutMapping("/update")
 	public persona updatePersona(@Valid @RequestBody persona_dto dto, BindingResult bindingResult) {
 		persona obj_persona = dto.to_persona();
+
 		obj_persona.setId_usuario(service.findPersonaByEmail(dto.getEmail()).getId_usuario());
 		return service.update(obj_persona);
 	}

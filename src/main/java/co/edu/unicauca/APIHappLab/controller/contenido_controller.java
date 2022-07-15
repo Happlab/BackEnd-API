@@ -3,6 +3,7 @@ package co.edu.unicauca.APIHappLab.controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,14 +45,9 @@ public class contenido_controller {
 			return service.findbyId(contenido_id);
 		}
 		@PostMapping("/create")
-		public contenido_dto create(@ModelAttribute contenido_dto dto) {
-			MultipartFile archivo = dto.getArchivo();
-			try {
-				Files.copy(archivo.getInputStream(), this.carpeta_root.resolve(archivo.getOriginalFilename()));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+		public contenido create(@ModelAttribute contenido_dto dto) {
 			contenido obj_contenido = dto.to_contenido();
+			obj_contenido.setFecha_subida(new Date());
 			persona auth;
 			try {
 				auth = p_service.findPersonaByEmail(dto.getEmail_autor());	
@@ -59,7 +55,15 @@ public class contenido_controller {
 			}catch(Exception ex){
 				return null;
 			}
-			return service.create(obj_contenido).to_contenido_dto();
+			MultipartFile archivo = dto.getArchivo();
+			try {
+				Files.copy(archivo.getInputStream(), this.carpeta_root.resolve(archivo.getOriginalFilename()));
+				obj_contenido.setLink(archivo.getOriginalFilename());
+			} catch (Exception e) {
+				e.printStackTrace();
+				return null;
+			}
+			return service.create(obj_contenido);
 		}
 		@PutMapping("/Update")
 		public contenido update(@Validated @RequestBody contenido body_contenido) {

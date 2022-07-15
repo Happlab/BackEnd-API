@@ -11,12 +11,13 @@ public class persona_dto {
 	private String rol;
 	private int tokens;
 	private boolean activo;
-	
+	private boolean pendiente;
 	public persona_dto() {
-		// TODO Auto-generated constructor stub
 	}
 	
-	public persona_dto(String email, String password, Long cedula, String nombres, String apellidos, String rol, int tokens) {
+
+	public persona_dto(String email, String password, Long cedula, String nombres, String apellidos, String rol,
+			int tokens, boolean activo, boolean pendiente) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -25,11 +26,31 @@ public class persona_dto {
 		this.apellidos = apellidos;
 		this.rol = rol;
 		this.tokens = tokens;
+		this.activo = activo;
+		this.pendiente = pendiente;
 	}
+
+
 	public persona to_persona() {
-		return new persona(email, password, cedula, nombres, apellidos, rol, tokens,activo);
+		return new persona(email, password, cedula, nombres, apellidos, rol, tokens,activo,pendiente);
 	}
 	
+	public boolean isActivo() {
+		return activo;
+	}
+
+	public void setActivo(boolean activo) {
+		this.activo = activo;
+	}
+
+	public boolean isPendiente() {
+		return pendiente;
+	}
+
+	public void setPendiente(boolean pendiente) {
+		this.pendiente = pendiente;
+	}
+
 	public String getEmail() {
 		return email;
 	}

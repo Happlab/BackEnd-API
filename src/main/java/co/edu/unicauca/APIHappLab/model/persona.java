@@ -49,8 +49,9 @@ public class persona {
 		
 	}
 
-	public persona(String email, String password, Long cedula, String nombres, String apellidos,
-			String rol, int tokens,boolean activo) {
+
+	
+	public persona(String email,String password,Long cedula,String nombres,String apellidos,String rol, int tokens, boolean activo, boolean pendiente) {
 		super();
 		this.email = email;
 		this.password = password;
@@ -60,8 +61,11 @@ public class persona {
 		this.rol = rol;
 		this.tokens = tokens;
 		this.activo = activo;
+		this.pendiente = pendiente;
 	}
-	
+
+
+
 	public boolean isActivo() {
 		return activo;
 	}
@@ -79,7 +83,7 @@ public class persona {
 	}
 
 	public persona_dto to_persona_dto() {
-		return new persona_dto(this.email,this.password,this.cedula,this.nombres,this.apellidos,this.rol,this.tokens);
+		return new persona_dto(this.email,this.password,this.cedula,this.nombres,this.apellidos,this.rol,this.tokens,this.activo,this.pendiente);
 	}
 
 	public String getId_usuario() {

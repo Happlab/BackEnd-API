@@ -30,7 +30,7 @@ public class contenido_dto {
 		this.valoracion_general = valoracion_general;
 	}
 	public contenido to_contenido(){
-		return new contenido( null , fecha_subida, archivo.getName(), resumen, autores, tags, valoracion_general);
+		return new contenido( null , fecha_subida, archivo.getOriginalFilename(), resumen, autores, tags, valoracion_general);
 	}
 	
 	public String getEmail_autor() {
