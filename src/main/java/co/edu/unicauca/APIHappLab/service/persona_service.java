@@ -34,7 +34,9 @@ public class persona_service{
 	}
 	public persona update(persona par_persona) {
 		final persona customer = repo.findByEmail(par_persona.getEmail());
-		if (!encoder.matches(par_persona.getPassword(), customer.getPassword())) {
+		if (encoder.matches(par_persona.getPassword(), customer.getPassword())) {
+			par_persona.setPassword(customer.getPassword());
+		} else {
 			par_persona.setPassword(encoder.encode(par_persona.getPassword()));
 		}
 		return repo.save(par_persona);

@@ -49,8 +49,6 @@ public class persona {
 		
 	}
 
-
-	
 	public persona(String email,String password,Long cedula,String nombres,String apellidos,String rol, int tokens, boolean activo, boolean pendiente) {
 		super();
 		this.email = email;
@@ -63,8 +61,6 @@ public class persona {
 		this.activo = activo;
 		this.pendiente = pendiente;
 	}
-
-
 
 	public boolean isActivo() {
 		return activo;
