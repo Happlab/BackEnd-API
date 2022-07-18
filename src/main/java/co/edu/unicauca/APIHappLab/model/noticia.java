@@ -8,6 +8,8 @@ import javax.validation.constraints.NotNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import co.edu.unicauca.APIHappLab.DTO.noticia_dto;
+
 @Document(collection = "noticia")
 public class noticia {
 	@Id
@@ -28,15 +30,16 @@ public class noticia {
 
 	}
 
-	public noticia(String id_noticia,String titulo_noticia, String url_noticia, String link_contenido, boolean visible) {
+	public noticia(String titulo_noticia, String url_noticia, String link_contenido, boolean visible) {
 		super();
-		this.id_noticia = id_noticia;
 		this.titulo_noticia = titulo_noticia;
 		this.url_noticia = url_noticia;
 		this.link_contenido = link_contenido;
 		this.visible = visible;
 	}
-
+	public noticia_dto to_noticia_dto() {
+		return new noticia_dto(this.titulo_noticia, this.url_noticia, this.link_contenido, this.visible);
+	}
 	public String getId_noticia() {
 		return id_noticia;
 	}

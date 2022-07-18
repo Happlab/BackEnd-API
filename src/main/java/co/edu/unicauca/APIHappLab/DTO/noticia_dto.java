@@ -1,6 +1,6 @@
 package co.edu.unicauca.APIHappLab.DTO;
 
-
+import co.edu.unicauca.APIHappLab.model.noticia;
 
 public class noticia_dto {
 	private String titulo_noticia;
@@ -16,6 +16,9 @@ public class noticia_dto {
 		this.url_noticia = url_noticia;
 		this.link_contenido = link_contenido;
 		this.visible = visible;
+	}
+	public noticia to_noticia() {
+		return new noticia(this.titulo_noticia, this.url_noticia, this.link_contenido, this.visible);
 	}
 	public String getTitulo_noticia() {
 		return titulo_noticia;
