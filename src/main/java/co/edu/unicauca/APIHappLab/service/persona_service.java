@@ -47,7 +47,9 @@ public class persona_service{
 	}
 	public boolean deleteByEmail(String email) {
 		try {
-			repo.deleteById(repo.findByEmail(email).getId_usuario());
+			persona usr = repo.findByEmail(email);
+			if(usr==null) return false;
+			repo.deleteById(usr.getId_usuario());
 			return true;
 		}catch (Exception ex) {
 			return false;
@@ -55,10 +57,15 @@ public class persona_service{
 
 	}
 	public persona login(String email,String password) {
-		final persona customer = repo.findByEmail(email);
+		persona customer=null;
+		try {
+		 customer = repo.findByEmail(email);
+		}catch(Exception e){
+			return customer;
+		}
 		if (encoder.matches(password, customer.getPassword()) && (customer.isActivo())) {
 			return customer;
 		}
-		return (persona) null;
+		return customer;
 	}
 }
