@@ -1,5 +1,6 @@
 package co.edu.unicauca.APIHappLab.controller;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,9 +43,10 @@ public class rate_controller {
 	}
 	@PostMapping("/create")
 	public rate create(@Validated @RequestBody rate_dto dto_rate) {
-		rate rt=dto_rate.to_rate();
+		rate rt = dto_rate.to_rate();
 		rt.setId_persona(service_persona.findPersonaByEmail(dto_rate.getEmail_persona()));
 		rt.setId_contenido(service_contenido.findbyId(dto_rate.getId_contenido()).get());
+		rt.setFecha_calificacion(new Date());
 		return service_rate.create(rt);
 	}
 	@PutMapping("/Update")

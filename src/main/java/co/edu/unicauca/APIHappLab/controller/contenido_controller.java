@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
@@ -36,8 +37,8 @@ import co.edu.unicauca.APIHappLab.service.persona_service;
 @RequestMapping("/contenido")
 @CrossOrigin(origins= "http://localhost:8080")
 public class contenido_controller {
-		
-		private Path carpeta_root = Paths.get("C:\\Users\\DAAC\\Documents\\GitHub\\BackEnd-API\\Files");
+	
+		private Path carpeta_root = Paths.get(new FileSystemResource("").getFile().getAbsolutePath()+"\\Files");
 		@Autowired
 		private contenido_service service;
 		@Autowired

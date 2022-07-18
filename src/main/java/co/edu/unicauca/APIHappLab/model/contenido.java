@@ -48,7 +48,7 @@ public class contenido {
 		this.valoracion_general = valoracion_general;
 	}
 	public contenido_dto to_contenido_dto(){
-		return new contenido_dto( id_autor.getEmail() , fecha_subida, null , resumen, autores, tags, valoracion_general);
+		return new contenido_dto( id_autor.getEmail() , null , resumen, autores, tags);
 	}
 
 	public boolean isVisible() {

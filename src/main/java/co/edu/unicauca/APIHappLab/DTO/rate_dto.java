@@ -10,7 +10,6 @@ public class rate_dto {
 	private String id_contenido;
 	private int valoracion;
 	private String comentarios;
-	private Date fecha_calificacion;
 	public rate_dto() {
 	}
 	public rate_dto(String email_persona, String id_contenido, int valoracion, String comentarios,
@@ -20,10 +19,9 @@ public class rate_dto {
 		this.id_contenido = id_contenido;
 		this.valoracion = valoracion;
 		this.comentarios = comentarios;
-		this.fecha_calificacion = fecha_calificacion;
 	}
 	public rate to_rate() {
-		return new rate("",null , null, this.valoracion,this.comentarios);
+		return new rate(null , null, this.valoracion,this.comentarios);
 	}
 	public String getEmail_persona() {
 		return email_persona;
@@ -49,11 +47,6 @@ public class rate_dto {
 	public void setComentarios(String comentarios) {
 		this.comentarios = comentarios;
 	}
-	public Date getFecha_calificacion() {
-		return fecha_calificacion;
-	}
-	public void setFecha_calificacion(Date fecha_calificacion) {
-		this.fecha_calificacion = fecha_calificacion;
-	}
+
 
 }

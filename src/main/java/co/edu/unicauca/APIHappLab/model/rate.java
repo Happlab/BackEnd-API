@@ -2,6 +2,8 @@ package co.edu.unicauca.APIHappLab.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -16,14 +18,18 @@ import co.edu.unicauca.APIHappLab.DTO.rate_dto;
 public class rate {
 	@Id
 	private String id_rate;
-	@DBRef
+	@NotNull
+	@DBRef(lazy=true)
 	private persona id_persona;
-	@DBRef
+	@NotNull
+	@DBRef(lazy=true)
 	private contenido id_contenido;
+	@NotNull
+	@Min(value=0)
+	@Max(value=5)
+	private int valoracion;
 	@NotBlank(message="campo password obligatorio")
 	@NotEmpty(message="campo password obligatorio")
-	private int valoracion;
-	@NotNull
 	private String comentarios;
 	@NotNull
 	private Date fecha_calificacion;
@@ -31,9 +37,8 @@ public class rate {
 	public rate() {
 	}
 
-	public rate(String id_rate, persona id_persona, contenido id_contenido, int valoracion, String comentarios) {
+	public rate(persona id_persona, contenido id_contenido, int valoracion, String comentarios) {
 		super();
-		this.id_rate = id_rate;
 		this.id_persona = id_persona;
 		this.id_contenido = id_contenido;
 		this.valoracion = valoracion;
