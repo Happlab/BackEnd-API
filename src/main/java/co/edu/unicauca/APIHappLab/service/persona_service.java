@@ -54,8 +54,8 @@ public class persona_service{
 		}catch (Exception ex) {
 			return false;
 		}
-
 	}
+	
 	public persona login(String email,String password) {
 		persona customer=null;
 		try {
@@ -67,5 +67,9 @@ public class persona_service{
 			return customer;
 		}
 		return customer;
+	}
+	
+	public List<persona> find_pendientes(){
+		return repo.findPendientes();
 	}
 }

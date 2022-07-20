@@ -29,4 +29,5 @@ public class contenido_service {
 	public contenido update(contenido body_contenido) {
 		return repo.save(body_contenido);
 	}
+	
 }
