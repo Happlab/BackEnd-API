@@ -12,9 +12,6 @@ public class persona_dto {
 	private int tokens;
 	private boolean activo;
 	private boolean pendiente;
-	public persona_dto() {
-	}
-	
 
 	public persona_dto(String email, String password, Long cedula, String nombres, String apellidos, String rol,
 			int tokens, boolean activo, boolean pendiente) {

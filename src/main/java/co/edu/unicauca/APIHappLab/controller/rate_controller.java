@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unicauca.APIHappLab.DTO.rate_dto;
 import co.edu.unicauca.APIHappLab.model.rate;
-import co.edu.unicauca.APIHappLab.service.contenido_service;
 import co.edu.unicauca.APIHappLab.service.persona_service;
 import co.edu.unicauca.APIHappLab.service.rate_service;
 
@@ -30,8 +29,6 @@ public class rate_controller {
 	private rate_service service_rate;
 	@Autowired
 	private persona_service service_persona;
-	@Autowired
-	private contenido_service service_contenido;
 	
 	@GetMapping("/")
 	public List<rate> readAll(){
@@ -45,7 +42,6 @@ public class rate_controller {
 	public rate create(@Validated @RequestBody rate_dto dto_rate) {
 		rate rt = dto_rate.to_rate();
 		rt.setId_persona(service_persona.findPersonaByEmail(dto_rate.getEmail_persona()));
-		rt.setId_contenido(service_contenido.findbyId(dto_rate.getId_contenido()).get());
 		rt.setFecha_calificacion(new Date());
 		return service_rate.create(rt);
 	}

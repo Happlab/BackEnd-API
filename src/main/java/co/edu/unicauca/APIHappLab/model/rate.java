@@ -22,31 +22,27 @@ public class rate {
 	@DBRef(lazy=true)
 	private persona id_persona;
 	@NotNull
-	@DBRef(lazy=true)
-	private contenido id_contenido;
-	@NotNull
 	@Min(value=0)
 	@Max(value=5)
 	private int valoracion;
 	@NotBlank(message="campo password obligatorio")
 	@NotEmpty(message="campo password obligatorio")
-	private String comentarios;
+	private String comentario;
 	@NotNull
 	private Date fecha_calificacion;
 	
 	public rate() {
 	}
 
-	public rate(persona id_persona, contenido id_contenido, int valoracion, String comentarios) {
+	public rate(persona id_persona, int valoracion, String comentario) {
 		super();
 		this.id_persona = id_persona;
-		this.id_contenido = id_contenido;
 		this.valoracion = valoracion;
-		this.comentarios = comentarios;
+		this.comentario = comentario;
 	}
 	
 	public rate_dto to_rate_dto() {
-		return new rate_dto(this.id_persona.getEmail(),this.id_contenido.getId_contenido(), this.valoracion, this.comentarios, this.fecha_calificacion);
+		return new rate_dto(this.id_persona.getEmail(), this.valoracion, this.comentario, this.fecha_calificacion);
 		
 	}
 	
@@ -69,12 +65,6 @@ public class rate {
 	public void setId_persona(persona id_persona) {
 		this.id_persona = id_persona;
 	}
-	public contenido getId_contenido() {
-		return id_contenido;
-	}
-	public void setId_contenido(contenido id_contenido) {
-		this.id_contenido = id_contenido;
-	}
 	public int getValoracion() {
 		return valoracion;
 	}
@@ -82,10 +72,10 @@ public class rate {
 		this.valoracion = valoracion;
 	}
 	public String getComentarios() {
-		return comentarios;
+		return comentario;
 	}
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
 	}
 
 	

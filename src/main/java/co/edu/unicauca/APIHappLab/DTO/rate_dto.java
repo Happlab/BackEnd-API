@@ -7,21 +7,19 @@ import co.edu.unicauca.APIHappLab.model.rate;
 
 public class rate_dto {
 	private String email_persona;
-	private String id_contenido;
 	private int valoracion;
-	private String comentarios;
+	private String comentario;
 	public rate_dto() {
 	}
-	public rate_dto(String email_persona, String id_contenido, int valoracion, String comentarios,
+	public rate_dto(String email_persona, int valoracion, String comentario,
 			Date fecha_calificacion) {
 		super();
 		this.email_persona = email_persona;
-		this.id_contenido = id_contenido;
 		this.valoracion = valoracion;
-		this.comentarios = comentarios;
+		this.comentario = comentario;
 	}
 	public rate to_rate() {
-		return new rate(null , null, this.valoracion,this.comentarios);
+		return new rate(null , this.valoracion,this.comentario);
 	}
 	public String getEmail_persona() {
 		return email_persona;
@@ -29,23 +27,17 @@ public class rate_dto {
 	public void setEmail_persona(String email_persona) {
 		this.email_persona = email_persona;
 	}
-	public String getId_contenido() {
-		return id_contenido;
-	}
-	public void setId_contenido(String id_contenido) {
-		this.id_contenido = id_contenido;
-	}
 	public int getValoracion() {
 		return valoracion;
 	}
 	public void setValoracion(int valoracion) {
 		this.valoracion = valoracion;
 	}
-	public String getComentarios() {
-		return comentarios;
+	public String getComentario() {
+		return comentario;
 	}
-	public void setComentarios(String comentarios) {
-		this.comentarios = comentarios;
+	public void setComentario(String comentario) {
+		this.comentario = comentario;
 	}
 
 
