@@ -25,7 +25,7 @@ public class contenido_dto {
 		this.tags = tags;
 	}
 	public contenido to_contenido(){
-		return new contenido( null ,  null, archivo.getOriginalFilename(), resumen, autores, tags, email_autor);
+		return new contenido( null ,  null, archivo.getOriginalFilename(), resumen, autores, tags);
 	}
 	
 	public String getEmail_autor() {

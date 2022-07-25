@@ -3,8 +3,11 @@ package co.edu.unicauca.APIHappLab.model;
 import java.util.ArrayList;
 import java.util.Date;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
@@ -28,7 +31,10 @@ public class contenido {
 	@NotEmpty(message="campo autores obligatorio")
 	private ArrayList<String> autores;
 	private ArrayList<String> tags;
-	private String valoracion_general;
+	@NotNull
+	@Min(value=0)
+	@Max(value=5)
+	private Double valoracion_general;
 	private boolean visible;
 	private boolean pendiente;
 	
@@ -37,7 +43,7 @@ public class contenido {
 	}
 
 	public contenido(persona id_autor, Date fecha_subida, String link, String resumen,
-			ArrayList<String> autores, ArrayList<String> tags, String valoracion_general) {
+			ArrayList<String> autores, ArrayList<String> tags) {
 		super();
 		this.id_autor = id_autor;
 		this.fecha_subida = fecha_subida;
@@ -45,7 +51,6 @@ public class contenido {
 		this.resumen = resumen;
 		this.autores = autores;
 		this.tags = tags;
-		this.valoracion_general = valoracion_general;
 	}
 	public contenido_dto to_contenido_dto(){
 		return new contenido_dto( id_autor.getEmail() , null , resumen, autores, tags);
@@ -123,11 +128,11 @@ public class contenido {
 		this.tags = tags;
 	}
 
-	public String getValoracion_general() {
+	public Double getValoracion_general() {
 		return valoracion_general;
 	}
 
-	public void setValoracion_general(String valoracion_general) {
+	public void setValoracion_general(Double valoracion_general) {
 		this.valoracion_general = valoracion_general;
 	}
 

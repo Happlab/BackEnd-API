@@ -27,7 +27,7 @@ public class rate {
 	@NotNull
 	@Min(value=0)
 	@Max(value=5)
-	private int valoracion;
+	private Double valoracion;
 	@NotBlank(message="campo password obligatorio")
 	@NotEmpty(message="campo password obligatorio")
 	private String comentarios;
@@ -37,7 +37,7 @@ public class rate {
 	public rate() {
 	}
 
-	public rate(persona id_persona, contenido id_contenido, int valoracion, String comentarios) {
+	public rate(persona id_persona, contenido id_contenido, Double valoracion, String comentarios) {
 		super();
 		this.id_persona = id_persona;
 		this.id_contenido = id_contenido;
@@ -75,10 +75,10 @@ public class rate {
 	public void setId_contenido(contenido id_contenido) {
 		this.id_contenido = id_contenido;
 	}
-	public int getValoracion() {
+	public Double getValoracion() {
 		return valoracion;
 	}
-	public void setValoracion(int valoracion) {
+	public void setValoracion(Double valoracion) {
 		this.valoracion = valoracion;
 	}
 	public String getComentarios() {

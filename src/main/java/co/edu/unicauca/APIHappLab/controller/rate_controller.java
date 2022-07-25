@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unicauca.APIHappLab.DTO.rate_dto;
+import co.edu.unicauca.APIHappLab.model.contenido;
 import co.edu.unicauca.APIHappLab.model.rate;
 import co.edu.unicauca.APIHappLab.service.contenido_service;
 import co.edu.unicauca.APIHappLab.service.persona_service;
@@ -44,8 +45,15 @@ public class rate_controller {
 	@PostMapping("/create")
 	public rate create(@Validated @RequestBody rate_dto dto_rate) {
 		rate rt = dto_rate.to_rate();
+		contenido obj_contenido=service_contenido.findbyId(dto_rate.getId_contenido()).get();
 		rt.setId_persona(service_persona.findPersonaByEmail(dto_rate.getEmail_persona()));
-		rt.setId_contenido(service_contenido.findbyId(dto_rate.getId_contenido()).get());
+		Long numComentarios = service_rate.count_by_contenido_id(obj_contenido.getId_contenido());
+		if (numComentarios!=0) {
+			obj_contenido.setValoracion_general(((obj_contenido.getValoracion_general()*numComentarios)+dto_rate.getValoracion())/(numComentarios+1));
+		}else {
+			obj_contenido.setValoracion_general(dto_rate.getValoracion());
+		}
+		rt.setId_contenido(obj_contenido);
 		rt.setFecha_calificacion(new Date());
 		return service_rate.create(rt);
 	}

@@ -30,4 +30,7 @@ public class rate_service {
 	public rate update(rate body_rate) {
 		return repo.save(body_rate);
 	}
+	public Long count_by_contenido_id(String prm_contenido_id) {
+		return repo.countByIdContenido(prm_contenido_id);
+	}
 }

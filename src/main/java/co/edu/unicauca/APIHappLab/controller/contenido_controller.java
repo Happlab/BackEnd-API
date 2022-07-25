@@ -76,6 +76,9 @@ public class contenido_controller {
 			try {
 				auth = p_service.findPersonaByEmail(dto.getEmail_autor());	
 				obj_contenido.setId_autor(auth);
+				obj_contenido.setPendiente(true);
+				obj_contenido.setVisible(false);
+				obj_contenido.setValoracion_general(0.0);
 			}catch(Exception ex){
 				return null;
 			}
@@ -91,8 +94,14 @@ public class contenido_controller {
 			return service.create(obj_contenido);
 		}
 		@PutMapping("/update")
-		public contenido update(@Validated @RequestBody contenido body_contenido) {
-			return service.update(body_contenido);
+		public ResponseEntity<contenido> update(@Validated @RequestBody contenido body_contenido) {
+			try {
+				contenido respuesta = service.update(body_contenido);
+				return ResponseEntity.ok(respuesta);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.noContent().build();
+			}
 		}
 		
 		@DeleteMapping("/delete/{contenido_link}")
@@ -103,7 +112,7 @@ public class contenido_controller {
 				return ResponseEntity.ok("message: contenido borrado");
 			} catch (IOException e) {
 				e.printStackTrace();
-				return ResponseEntity.internalServerError().build();
+				return ResponseEntity.internalServerError().header("ErrorMessage", "se caio").build();
 			}
 		}
 }
