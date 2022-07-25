@@ -1,5 +1,6 @@
 package co.edu.unicauca.APIHappLab.controller;
 
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +37,7 @@ import co.edu.unicauca.APIHappLab.service.persona_service;
 
 @RestController
 @RequestMapping("/contenido")
-@CrossOrigin(origins= "http://localhost:8080")
+@CrossOrigin({"http://localhost:8080","http://localhost:3000"})
 public class contenido_controller {
 	
 		private Path carpeta_root = Paths.get(new FileSystemResource("").getFile().getAbsolutePath()+"\\Files");
@@ -88,8 +90,20 @@ public class contenido_controller {
 			}
 			return service.create(obj_contenido);
 		}
-		@PutMapping("/Update")
+		@PutMapping("/update")
 		public contenido update(@Validated @RequestBody contenido body_contenido) {
 			return service.update(body_contenido);
+		}
+		
+		@DeleteMapping("/delete/{contenido_link}")
+		public ResponseEntity<String> delete(@PathVariable String contenido_link){
+			try {
+				Files.deleteIfExists(carpeta_root.resolve(contenido_link));
+				service.delete(contenido_link);
+				return ResponseEntity.ok("message: contenido borrado");
+			} catch (IOException e) {
+				e.printStackTrace();
+				return ResponseEntity.internalServerError().build();
+			}
 		}
 }

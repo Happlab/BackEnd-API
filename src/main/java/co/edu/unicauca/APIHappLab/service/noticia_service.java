@@ -30,4 +30,13 @@ public class noticia_service {
 	public List<noticia> findAll(){
 		return this.repo.findAll();
 	}
+	public boolean delete(String id) {
+		try {
+			repo.deleteById(id);
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
 }

@@ -25,10 +25,6 @@ public class noticia {
 	private String link_contenido;
 	@NotNull
 	private boolean visible;
-	
-	public noticia() {
-
-	}
 
 	public noticia(String titulo_noticia, String url_noticia, String link_contenido, boolean visible) {
 		super();

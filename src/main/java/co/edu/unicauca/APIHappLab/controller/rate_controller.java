@@ -23,7 +23,7 @@ import co.edu.unicauca.APIHappLab.service.rate_service;
 
 @RestController
 @RequestMapping("/rate")
-@CrossOrigin(origins= "http://localhost:8080")
+@CrossOrigin({"http://localhost:8080","http://localhost:3000"})
 public class rate_controller {
 	
 	@Autowired

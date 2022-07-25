@@ -29,5 +29,9 @@ public class contenido_service {
 	public contenido update(contenido body_contenido) {
 		return repo.save(body_contenido);
 	}
+
+	public void delete(String contenido_link) {
+		repo.delete(repo.findByContenido_link(contenido_link));
+	}
 	
 }
