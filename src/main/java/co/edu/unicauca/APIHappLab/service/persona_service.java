@@ -57,19 +57,15 @@ public class persona_service{
 	}
 	
 	public persona login(String email,String password) {
-		persona customer=null;
 		try {
-		 customer = repo.findByEmail(email);
+		 persona customer = repo.findByEmail(email);
+		 if(customer==null) {return null;}
+		 if (encoder.matches(password, customer.getPassword()) && (customer.isActivo()) && !(customer.isPendiente())) {
+			return customer;
+		 }
+		 return null;
 		}catch(Exception e){
-			return customer;
+			return null;
 		}
-		if (encoder.matches(password, customer.getPassword()) && (customer.isActivo())) {
-			return customer;
-		}
-		return customer;
-	}
-	
-	public List<persona> find_pendientes(){
-		return repo.findPendientes();
 	}
 }

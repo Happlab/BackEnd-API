@@ -2,7 +2,6 @@ package co.edu.unicauca.APIHappLab.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -22,8 +21,9 @@ import co.edu.unicauca.APIHappLab.DTO.contenido_dto;
 public class contenido {
 	@Id
 	private String id_contenido;
-	@DBRef(lazy=true)
+	@DBRef
 	private persona id_autor;
+	@NotNull
 	private Date fecha_subida;
 	@NotBlank(message="campo link obligatorio")
 	@NotEmpty(message="campo link obligatorio")
@@ -42,7 +42,7 @@ public class contenido {
 	private boolean visible;
 	private boolean pendiente;
 	@NotNull
-	private List<rate> comentarios;
+	private ArrayList<rate> comentarios;
 	
 	public contenido(persona id_autor, Date fecha_subida, String link, String resumen,
 			ArrayList<String> autores, ArrayList<String> tags) {
@@ -53,6 +53,7 @@ public class contenido {
 		this.resumen = resumen;
 		this.autores = autores;
 		this.tags = tags;
+		this.comentarios = new ArrayList<rate>();
 	}
 	public contenido_dto to_contenido_dto(){
 		return new contenido_dto( id_autor.getEmail() , null , resumen, autores, tags,comentarios);
@@ -141,10 +142,10 @@ public class contenido {
 	public void addComentario(rate Comentario) {
 		this.comentarios.add(Comentario);
 	}
-	public List<rate> getComentarios() {
+	public ArrayList<rate> getComentarios() {
 		return comentarios;
 	}
-	public void setComentarios(List<rate> comentarios) {
+	public void setComentarios(ArrayList<rate> comentarios) {
 		this.comentarios = comentarios;
 	}
 }

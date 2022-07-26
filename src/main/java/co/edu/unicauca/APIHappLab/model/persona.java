@@ -39,6 +39,7 @@ public class persona {
 	@NotEmpty(message="campo rol obligatorio")
 	private String rol;
 	@NotNull
+	@Min(value=0)
 	private int tokens;
 	@NotNull
 	private boolean activo;
@@ -83,7 +84,7 @@ public class persona {
 	}
 
 	public String getId_usuario() {
-		return id_usuario;
+		return this.id_usuario;
 	}
 
 	public void setId_usuario(String id_usuario) {

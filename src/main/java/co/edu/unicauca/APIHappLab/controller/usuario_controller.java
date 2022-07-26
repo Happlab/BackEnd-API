@@ -81,18 +81,7 @@ public class usuario_controller {
 	@GetMapping("/Login/{Email}&{Contraseña}")
 	public ResponseEntity<persona> login(@PathVariable String Email,@PathVariable String Contraseña) {
 		persona obj_persona = service.login(Email, Contraseña);
-		if(obj_persona==null) return ResponseEntity.internalServerError().header("").build();
+		if(obj_persona==null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
 		return ResponseEntity.ok(obj_persona);
-	}
-	
-	@GetMapping("/pendientes")
-	public ResponseEntity<List<persona>> find_pendientes(){
-		List<persona> resultado=null;
-		try {
-			resultado = service.find_pendientes();
-			return ResponseEntity.ok().body(resultado);
-		}catch(Exception e){
-			return ResponseEntity.notFound().build();
-		}
 	}
 }

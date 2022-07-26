@@ -14,10 +14,10 @@ public class contenido_dto {
 	private String resumen;
 	private ArrayList<String> autores;
 	private ArrayList<String> tags;
-	private List<rate> comentarios;
+	private ArrayList<rate> comentarios;
 	
 	public contenido_dto(String email_autor, MultipartFile archivo, String resumen, ArrayList<String> autores,
-			ArrayList<String> tags,List<rate> comentarios) {
+			ArrayList<String> tags,ArrayList<rate> comentarios) {
 		super();
 		this.email_autor = email_autor;
 		this.archivo = archivo;
@@ -31,7 +31,7 @@ public class contenido_dto {
 		return comentarios;
 	}
 
-	public void setComentarios(List<rate> comentarios) {
+	public void setComentarios(ArrayList<rate> comentarios) {
 		this.comentarios = comentarios;
 	}
 

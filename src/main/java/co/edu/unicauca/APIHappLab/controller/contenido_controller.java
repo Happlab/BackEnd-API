@@ -14,6 +14,7 @@ import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -51,9 +52,9 @@ public class contenido_controller {
 		public List<contenido> readAll(){
 			return service.findAll();
 		}
-		@GetMapping("/{contenido_id}")
-		public Optional<contenido> findbyId(@PathVariable String contenido_id){
-			return service.findbyId(contenido_id);
+		@GetMapping("/{contenido_link}")
+		public Optional<contenido> findby_contenido_link(@PathVariable String contenido_link){
+			return service.findby_contenido_link(contenido_link);
 		}
 		@GetMapping("/download/{contenido_link}")
 		public ResponseEntity<Resource> downloadbyId(@PathVariable String contenido_link) throws MalformedURLException{
@@ -73,11 +74,11 @@ public class contenido_controller {
 		@PostMapping("/create")
 		public contenido create(@ModelAttribute contenido_dto dto) {
 			contenido obj_contenido = dto.to_contenido();
-			obj_contenido.setFecha_subida(new Date());
 			persona auth;
 			try {
-				auth = p_service.findPersonaByEmail(dto.getEmail_autor());	
+				auth = p_service.findPersonaByEmail(dto.getEmail_autor());
 				obj_contenido.setId_autor(auth);
+				obj_contenido.setFecha_subida(new Date());
 				obj_contenido.setPendiente(true);
 				obj_contenido.setVisible(false);
 				obj_contenido.setValoracion_general(0.0);
@@ -119,11 +120,21 @@ public class contenido_controller {
 		}
 		
 		@PostMapping("/comentar/{contenido_link}")
-		public ResponseEntity<contenido> comentar(@PathVariable String contenido_link,@RequestBody rate_dto dto_rate){
-			contenido obj_contenido = service.findbyId(contenido_link).get();
+		public ResponseEntity<?> comentar(@PathVariable String contenido_link,@RequestBody rate_dto dto_rate){
+			contenido obj_contenido;
+			try {
+				obj_contenido = service.findby_contenido_link(contenido_link).get();
+			} catch (Exception e1) {
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Find Contenido:"+e1.getMessage());
+			}
 			rate obj_rate = dto_rate.to_rate();
 			obj_rate.setId_persona(p_service.findPersonaByEmail(dto_rate.getEmail_persona()));
 			obj_rate.setFecha_calificacion(new Date());
+			if(obj_contenido.getComentarios().isEmpty()) {
+				obj_contenido.setValoracion_general(obj_rate.getValoracion());
+			}else {
+				obj_contenido.setValoracion_general(((obj_contenido.getValoracion_general()*obj_contenido.getComentarios().size())+(obj_rate.getValoracion()))/(obj_contenido.getComentarios().size()+1));
+			}
 			obj_contenido.addComentario(obj_rate);
 			try {
 				obj_contenido = service.update(obj_contenido);

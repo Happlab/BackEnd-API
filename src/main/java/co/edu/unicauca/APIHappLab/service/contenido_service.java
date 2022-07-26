@@ -22,8 +22,8 @@ public class contenido_service {
 	public List<contenido> findAll() {
 		return repo.findAll();
 	}
-	public Optional<contenido> findbyId(String contenido_id) {
-		return repo.findById(contenido_id);
+	public Optional<contenido> findby_contenido_link(String contenido_link) {
+		return repo.findByContenido_link(contenido_link);
 	}
 
 	public contenido update(contenido body_contenido) {
@@ -31,7 +31,7 @@ public class contenido_service {
 	}
 
 	public void delete(String contenido_link) {
-		repo.delete(repo.findByContenido_link(contenido_link));
+		repo.delete(repo.findByContenido_link(contenido_link).get());
 	}
 	
 }

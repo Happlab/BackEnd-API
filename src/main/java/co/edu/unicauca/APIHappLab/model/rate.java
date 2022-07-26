@@ -8,7 +8,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -16,15 +15,13 @@ import co.edu.unicauca.APIHappLab.DTO.rate_dto;
 
 @Document(collection = "rate")
 public class rate {
-	@Id
-	private String id_rate;
 	@NotNull
-	@DBRef(lazy=true)
+	@DBRef
 	private persona id_persona;
 	@NotNull
 	@Min(value=0)
 	@Max(value=5)
-	private int valoracion;
+	private double valoracion;
 	@NotBlank(message="campo password obligatorio")
 	@NotEmpty(message="campo password obligatorio")
 	private String comentario;
@@ -34,7 +31,7 @@ public class rate {
 	public rate() {
 	}
 
-	public rate(persona id_persona, int valoracion, String comentario) {
+	public rate(persona id_persona, double valoracion, String comentario) {
 		super();
 		this.id_persona = id_persona;
 		this.valoracion = valoracion;
@@ -53,22 +50,17 @@ public class rate {
 	public void setFecha_calificacion(Date fecha_calificacion) {
 		this.fecha_calificacion = fecha_calificacion;
 	}
-	public String getId_rate() {
-		return id_rate;
-	}
-	public void setId_rate(String id_rate) {
-		this.id_rate = id_rate;
-	}
+
 	public persona getId_persona() {
 		return id_persona;
 	}
 	public void setId_persona(persona id_persona) {
 		this.id_persona = id_persona;
 	}
-	public int getValoracion() {
+	public double getValoracion() {
 		return valoracion;
 	}
-	public void setValoracion(int valoracion) {
+	public void setValoracion(double valoracion) {
 		this.valoracion = valoracion;
 	}
 	public String getComentarios() {

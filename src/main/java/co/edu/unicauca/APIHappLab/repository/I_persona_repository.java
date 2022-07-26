@@ -1,7 +1,5 @@
 package co.edu.unicauca.APIHappLab.repository;
 
-import java.util.List;
-
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -12,7 +10,4 @@ public interface I_persona_repository extends MongoRepository<persona,String>{
 	
 	@Query("{ 'email' : ?0 }")
 	persona findByEmail(String Email);
-	
-	@Query("{ 'pendiente' : true }")
-	List<persona> findPendientes();
 }
