@@ -13,8 +13,6 @@ public class contenido_dto {
 	private ArrayList<String> autores;
 	private ArrayList<String> tags;
 	
-	public contenido_dto() {}
-	
 	public contenido_dto(String email_autor, MultipartFile archivo, String resumen, ArrayList<String> autores,
 			ArrayList<String> tags) {
 		super();
