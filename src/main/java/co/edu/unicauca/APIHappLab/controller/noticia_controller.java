@@ -11,6 +11,10 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,6 +57,22 @@ public class noticia_controller {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.notFound().build();
+		}
+	}
+	@GetMapping("/img/{link_contenido}")
+	public ResponseEntity<?> getImg(@PathVariable String link_contenido){
+		Path archivo;
+		Resource resource;
+		try {
+			archivo = carpeta_root.resolve(link_contenido);
+			resource = new UrlResource(archivo.toUri());
+			if(resource.isFile() || resource.isReadable()) {
+				return ResponseEntity.ok().contentType(MediaType.MULTIPART_FORM_DATA).body(resource);
+			}
+			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("no es archivo o no se puede leer");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().body("message: Error Al leer imagen: "+e.getMessage());
 		}
 	}
 	@PostMapping("/create")
