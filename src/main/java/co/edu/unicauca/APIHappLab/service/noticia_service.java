@@ -15,9 +15,11 @@ public class noticia_service {
 	private I_noticia_repository repo;
 	public noticia_service() {
 	}
-
 	public Optional<noticia> findById(String id_noticia){
 		return repo.findById(id_noticia);
+	}
+	public Optional<noticia> findByLink_contenido(String link_contenido){
+		return repo.findByLink_contenido(link_contenido);
 	}
 	public noticia create(noticia par_noticia) {
 		return repo.insert(par_noticia);

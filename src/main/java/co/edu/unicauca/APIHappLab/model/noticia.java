@@ -1,6 +1,8 @@
 package co.edu.unicauca.APIHappLab.model;
 
 
+import java.util.Date;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -25,7 +27,9 @@ public class noticia {
 	private String link_contenido;
 	@NotNull
 	private boolean visible;
-
+	@NotNull
+	private Date fecha_creacion;
+	
 	public noticia(String titulo_noticia, String url_noticia, String link_contenido, boolean visible) {
 		super();
 		this.titulo_noticia = titulo_noticia;
@@ -34,7 +38,7 @@ public class noticia {
 		this.visible = visible;
 	}
 	public noticia_dto to_noticia_dto() {
-		return new noticia_dto(this.titulo_noticia, this.url_noticia, this.link_contenido, this.visible);
+		return new noticia_dto(this.titulo_noticia, this.url_noticia, null, this.visible);
 	}
 	public String getId_noticia() {
 		return id_noticia;
@@ -74,6 +78,12 @@ public class noticia {
 
 	public void setVisible(boolean visible) {
 		this.visible = visible;
+	}
+	public Date getFecha_creacion() {
+		return fecha_creacion;
+	}
+	public void setFecha_creacion(Date fecha_creacion) {
+		this.fecha_creacion = fecha_creacion;
 	}
 
 }
