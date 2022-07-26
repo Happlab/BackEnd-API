@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 import co.edu.unicauca.APIHappLab.model.rate;
 @Repository
 public interface I_rate_repository extends MongoRepository<rate, String>{
-	@Query(value = "{'id_contenido' : ?0}", count=true)
+	@Query(value = "{ 'id_contenido' : ?0}", count=true)
 	Long countByIdContenido(String id_contenido);
 }
