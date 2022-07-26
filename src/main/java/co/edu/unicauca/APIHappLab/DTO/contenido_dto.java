@@ -1,10 +1,12 @@
 package co.edu.unicauca.APIHappLab.DTO;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
 import co.edu.unicauca.APIHappLab.model.contenido;
+import co.edu.unicauca.APIHappLab.model.rate;
 public class contenido_dto {
 
 	private String email_autor;
@@ -12,16 +14,27 @@ public class contenido_dto {
 	private String resumen;
 	private ArrayList<String> autores;
 	private ArrayList<String> tags;
+	private List<rate> comentarios;
 	
 	public contenido_dto(String email_autor, MultipartFile archivo, String resumen, ArrayList<String> autores,
-			ArrayList<String> tags) {
+			ArrayList<String> tags,List<rate> comentarios) {
 		super();
 		this.email_autor = email_autor;
 		this.archivo = archivo;
 		this.resumen = resumen;
 		this.autores = autores;
 		this.tags = tags;
+		this.comentarios = comentarios;
 	}
+	
+	public List<rate> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(List<rate> comentarios) {
+		this.comentarios = comentarios;
+	}
+
 	public contenido to_contenido(){
 		return new contenido( null ,  null, archivo.getOriginalFilename(), resumen, autores, tags);
 	}

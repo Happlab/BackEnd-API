@@ -15,9 +15,6 @@ public class rate_service {
 	@Autowired
 	private I_rate_repository repo;
 	
-	public rate_service() {
-		// TODO Auto-generated constructor stub
-	}
 	public rate create(rate par_rate) {
 		return repo.insert(par_rate);	
 	}

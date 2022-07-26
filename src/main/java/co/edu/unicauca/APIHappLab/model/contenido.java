@@ -2,6 +2,7 @@ package co.edu.unicauca.APIHappLab.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -10,6 +11,8 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.IndexDirection;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
@@ -24,6 +27,7 @@ public class contenido {
 	private Date fecha_subida;
 	@NotBlank(message="campo link obligatorio")
 	@NotEmpty(message="campo link obligatorio")
+	@Indexed(unique=true, direction=IndexDirection.DESCENDING, dropDups=true)
 	private String link;
 	@NotBlank(message="campo resumen obligatorio")
 	@NotEmpty(message="campo resumen obligatorio")
@@ -37,11 +41,9 @@ public class contenido {
 	private Double valoracion_general;
 	private boolean visible;
 	private boolean pendiente;
+	@NotNull
+	private List<rate> comentarios;
 	
-	public contenido() {
-		// TODO Auto-generated constructor stub
-	}
-
 	public contenido(persona id_autor, Date fecha_subida, String link, String resumen,
 			ArrayList<String> autores, ArrayList<String> tags) {
 		super();
@@ -53,7 +55,7 @@ public class contenido {
 		this.tags = tags;
 	}
 	public contenido_dto to_contenido_dto(){
-		return new contenido_dto( id_autor.getEmail() , null , resumen, autores, tags);
+		return new contenido_dto( id_autor.getEmail() , null , resumen, autores, tags,comentarios);
 	}
 
 	public boolean isVisible() {
@@ -135,5 +137,14 @@ public class contenido {
 	public void setValoracion_general(Double valoracion_general) {
 		this.valoracion_general = valoracion_general;
 	}
-
+	
+	public void addComentario(rate Comentario) {
+		this.comentarios.add(Comentario);
+	}
+	public List<rate> getComentarios() {
+		return comentarios;
+	}
+	public void setComentarios(List<rate> comentarios) {
+		this.comentarios = comentarios;
+	}
 }

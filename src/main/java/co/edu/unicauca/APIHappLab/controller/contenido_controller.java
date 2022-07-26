@@ -30,8 +30,10 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import co.edu.unicauca.APIHappLab.DTO.contenido_dto;
+import co.edu.unicauca.APIHappLab.DTO.rate_dto;
 import co.edu.unicauca.APIHappLab.model.contenido;
 import co.edu.unicauca.APIHappLab.model.persona;
+import co.edu.unicauca.APIHappLab.model.rate;
 import co.edu.unicauca.APIHappLab.service.contenido_service;
 import co.edu.unicauca.APIHappLab.service.persona_service;
 
@@ -113,6 +115,22 @@ public class contenido_controller {
 			} catch (IOException e) {
 				e.printStackTrace();
 				return ResponseEntity.internalServerError().header("ErrorMessage", "se caio").build();
+			}
+		}
+		
+		@PostMapping("/comentar/{contenido_link}")
+		public ResponseEntity<contenido> comentar(@PathVariable String contenido_link,@RequestBody rate_dto dto_rate){
+			contenido obj_contenido = service.findbyId(contenido_link).get();
+			rate obj_rate = dto_rate.to_rate();
+			obj_rate.setId_persona(p_service.findPersonaByEmail(dto_rate.getEmail_persona()));
+			obj_rate.setFecha_calificacion(new Date());
+			obj_contenido.addComentario(obj_rate);
+			try {
+				obj_contenido = service.update(obj_contenido);
+				return ResponseEntity.ok(obj_contenido);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.internalServerError().build();
 			}
 		}
 }
