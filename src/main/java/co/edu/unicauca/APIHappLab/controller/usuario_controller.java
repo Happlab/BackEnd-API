@@ -79,9 +79,9 @@ public class usuario_controller {
 		return ResponseEntity.internalServerError().body("message: usuario no encontrado");
 	}
 	@GetMapping("/Login/{Email}&{Contraseña}")
-	public ResponseEntity<persona> login(@PathVariable String Email,@PathVariable String Contraseña) {
+	public ResponseEntity<?> login(@PathVariable String Email,@PathVariable String Contraseña) {
 		persona obj_persona = service.login(Email, Contraseña);
-		if(obj_persona==null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+		if(obj_persona==null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Message: Error al logear");
 		return ResponseEntity.ok(obj_persona);
 	}
 }

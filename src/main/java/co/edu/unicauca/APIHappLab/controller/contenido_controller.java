@@ -57,7 +57,7 @@ public class contenido_controller {
 			return service.findby_contenido_link(contenido_link);
 		}
 		@GetMapping("/download/{contenido_link}")
-		public ResponseEntity<Resource> downloadbyId(@PathVariable String contenido_link) throws MalformedURLException{
+		public ResponseEntity<?> downloadbyId(@PathVariable String contenido_link) throws MalformedURLException{
 			try {
 				Path archivo = carpeta_root.resolve(contenido_link);
 				Resource resource = new UrlResource(archivo.toUri());
@@ -65,7 +65,7 @@ public class contenido_controller {
 					return ResponseEntity.ok().contentType(MediaType.MULTIPART_FORM_DATA).
 							header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename=\""+resource.getFilename()+"\"").body(resource);	
 				}
-				return ResponseEntity.notFound().build();
+				return ResponseEntity.status(HttpStatus.NO_CONTENT).body("ExeptionMessage:No es archivo o el archivo no pudo ser leido");
 			} catch (Exception e) {
 				e.printStackTrace();
 				return ResponseEntity.notFound().build();
