@@ -10,6 +10,7 @@ import co.edu.unicauca.APIHappLab.model.rate;
 public class contenido_dto {
 
 	private String email_autor;
+	private String titulo;
 	private MultipartFile archivo;
 	private String resumen;
 	private ArrayList<String> autores;
@@ -17,7 +18,7 @@ public class contenido_dto {
 	private ArrayList<rate> comentarios;
 	
 	public contenido_dto(String email_autor, MultipartFile archivo, String resumen, ArrayList<String> autores,
-			ArrayList<String> tags,ArrayList<rate> comentarios) {
+			ArrayList<String> tags,ArrayList<rate> comentarios,String titulo) {
 		super();
 		this.email_autor = email_autor;
 		this.archivo = archivo;
@@ -25,8 +26,17 @@ public class contenido_dto {
 		this.autores = autores;
 		this.tags = tags;
 		this.comentarios = comentarios;
+		this.titulo=titulo;
 	}
 	
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
+
 	public List<rate> getComentarios() {
 		return comentarios;
 	}
@@ -36,7 +46,7 @@ public class contenido_dto {
 	}
 
 	public contenido to_contenido(){
-		return new contenido( null ,  null, archivo.getOriginalFilename(), resumen, autores, tags);
+		return new contenido( null ,  null, archivo.getOriginalFilename(), resumen, autores, tags,titulo);
 	}
 	
 	public String getEmail_autor() {

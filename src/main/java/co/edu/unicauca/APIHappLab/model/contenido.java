@@ -21,6 +21,9 @@ import co.edu.unicauca.APIHappLab.DTO.contenido_dto;
 public class contenido {
 	@Id
 	private String id_contenido;
+	@NotBlank(message="campo link obligatorio")
+	@NotEmpty(message="campo link obligatorio")
+	private String titulo;
 	@DBRef
 	private persona id_autor;
 	@NotNull
@@ -45,7 +48,7 @@ public class contenido {
 	private ArrayList<rate> comentarios;
 	
 	public contenido(persona id_autor, Date fecha_subida, String link, String resumen,
-			ArrayList<String> autores, ArrayList<String> tags) {
+			ArrayList<String> autores, ArrayList<String> tags,String titulo) {
 		super();
 		this.id_autor = id_autor;
 		this.fecha_subida = fecha_subida;
@@ -54,11 +57,17 @@ public class contenido {
 		this.autores = autores;
 		this.tags = tags;
 		this.comentarios = new ArrayList<rate>();
+		this.titulo=titulo;
 	}
 	public contenido_dto to_contenido_dto(){
-		return new contenido_dto( id_autor.getEmail() , null , resumen, autores, tags,comentarios);
+		return new contenido_dto( id_autor.getEmail() , null , resumen, autores, tags,comentarios,titulo);
 	}
-
+	public String getTitulo() {
+		return titulo;
+	}
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
 	public boolean isVisible() {
 		return visible;
 	}

@@ -90,7 +90,7 @@ public class seccion_controller {
 				return ResponseEntity.internalServerError().body("message: error al guardar el archivo "+e.getMessage());
 			}
 		}
-		obj_seccion.setUrl(pathVar_seccion.getTitulo_seccion());
+		obj_seccion.setUrl(pathVar_seccion.getUrl());
 		obj_seccion.setDescripcion(pathVar_seccion.getDescripcion());
 		obj_seccion.setCoordenadas(pathVar_seccion.getCoordenadas());
 		seccion rta;
