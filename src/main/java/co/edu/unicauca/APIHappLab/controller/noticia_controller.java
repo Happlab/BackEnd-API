@@ -35,7 +35,6 @@ import co.edu.unicauca.APIHappLab.service.noticia_service;
 
 @RestController
 @RequestMapping("/noticia")
-@CrossOrigin(origins= {"http://localhost:8080","http://localhost:3000"})
 public class noticia_controller {
 	@Autowired
 	private noticia_service service;

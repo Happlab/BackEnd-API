@@ -41,7 +41,6 @@ import co.edu.unicauca.APIHappLab.service.persona_service;
 
 @RestController
 @RequestMapping("/contenido")
-@CrossOrigin({"http://localhost:8080","http://localhost:3000"})
 public class contenido_controller {
 	
 		private Path carpeta_root = Paths.get(new FileSystemResource("").getFile().getAbsolutePath()+"\\Files");

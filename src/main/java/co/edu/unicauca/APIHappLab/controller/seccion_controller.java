@@ -29,7 +29,6 @@ import co.edu.unicauca.APIHappLab.service.seccion_service;
 
 @RestController
 @RequestMapping("/seccion")
-@CrossOrigin({"http://localhost:8080","http://localhost:3000"})
 public class seccion_controller {
 
 	private Path carpeta_root = Paths.get(new FileSystemResource("").getFile().getAbsolutePath()+"\\ContenidoSeccion");

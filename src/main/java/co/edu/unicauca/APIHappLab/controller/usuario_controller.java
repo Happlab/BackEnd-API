@@ -25,7 +25,6 @@ import co.edu.unicauca.APIHappLab.service.persona_service;
 
 @RestController
 @RequestMapping("/persona")
-@CrossOrigin({"http://localhost:8080","http://localhost:3000"})
 public class usuario_controller {
 	@Autowired
 	private persona_service service;
