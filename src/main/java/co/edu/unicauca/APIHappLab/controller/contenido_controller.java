@@ -97,7 +97,7 @@ public class contenido_controller {
 			return service.create(obj_contenido);
 		}
 		@PutMapping("/update")
-		public ResponseEntity<contenido> update(@Validated @RequestBody contenido body_contenido) {
+		public ResponseEntity<?> update(@Validated @RequestBody contenido body_contenido) {
 			try {
 				contenido respuesta = service.update(body_contenido);
 				return ResponseEntity.ok(respuesta);
@@ -108,14 +108,14 @@ public class contenido_controller {
 		}
 		
 		@DeleteMapping("/delete/{contenido_link}")
-		public ResponseEntity<String> delete(@PathVariable String contenido_link){
+		public ResponseEntity<?> delete(@PathVariable String contenido_link){
 			try {
 				Files.deleteIfExists(carpeta_root.resolve(contenido_link));
 				service.delete(contenido_link);
 				return ResponseEntity.ok("message: contenido borrado");
 			} catch (IOException e) {
 				e.printStackTrace();
-				return ResponseEntity.internalServerError().header("ErrorMessage", "se caio").build();
+				return ResponseEntity.internalServerError().body("message: error al eliminar archivo");
 			}
 		}
 		
@@ -141,7 +141,7 @@ public class contenido_controller {
 				return ResponseEntity.ok(obj_contenido);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return ResponseEntity.internalServerError().build();
+				return ResponseEntity.internalServerError().body("message: Error al Actualizar contenido en comentar "+e.getMessage());
 			}
 		}
 }

@@ -1,7 +1,6 @@
 package co.edu.unicauca.APIHappLab.model;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -9,27 +8,24 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Document(collection = "seccion")
 public class seccion {
 	@Id
-	private Double id;
-	@NotBlank
-	@NotEmpty
+	private Integer id;
 	private String titulo_seccion;
 	private String url;
 	private String nombre_contenido;
 	private String descripcion;
-	private Object auxiliar;
-	public seccion(Double id, String titulo_seccion,  String url, String nombre_contenido, String descripcion, Object auxiliar) {
+	private List<Double> coordenadas;
+	public seccion(String titulo_seccion,  String url, String nombre_contenido, String descripcion,List<Double> coordenadas) {
 		super();
-		this.id = id;
 		this.titulo_seccion = titulo_seccion;
 		this.url = url;
 		this.nombre_contenido = nombre_contenido;
 		this.descripcion = descripcion;
-		this.auxiliar = auxiliar;
+		this.coordenadas = coordenadas;
 	}
-	public Double getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Double id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public String getTitulo_seccion() {
@@ -56,10 +52,11 @@ public class seccion {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public Object getAuxiliar() {
-		return auxiliar;
+	public List<Double> getCoordenadas() {
+		return coordenadas;
 	}
-	public void setAuxiliar(Object auxiliar) {
-		this.auxiliar = auxiliar;
+	public void setCoordenadas(List<Double> coordenadas) {
+		this.coordenadas = coordenadas;
 	}
+
 }

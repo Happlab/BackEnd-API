@@ -40,7 +40,7 @@ public class noticia_controller {
 	private noticia_service service;
 	private Path carpeta_root = Paths.get(new FileSystemResource("").getFile().getAbsolutePath()+"\\Noticias");
 	@GetMapping("/")
-	public ResponseEntity<List<noticia>> readAll(){
+	public ResponseEntity<?> readAll(){
 		try {
 			List<noticia> respuesta = service.findAll();
 			return ResponseEntity.ok(respuesta);
@@ -50,7 +50,7 @@ public class noticia_controller {
 		}
 	}
 	@GetMapping("/{noticia_id}")
-	public ResponseEntity<Optional<noticia>> findbyId(@PathVariable String noticia_id){
+	public ResponseEntity<?> findbyId(@PathVariable String noticia_id){
 		try {
 			Optional<noticia> respuesta = service.findById(noticia_id);
 			return ResponseEntity.ok(respuesta);
@@ -125,5 +125,4 @@ public class noticia_controller {
 			return ResponseEntity.internalServerError().body("message:error al eliminar contenido debido a "+ e.getMessage());
 		}
 	}
-
 }

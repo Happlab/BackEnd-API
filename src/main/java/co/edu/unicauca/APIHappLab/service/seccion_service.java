@@ -18,7 +18,7 @@ public class seccion_service {
 	public seccion create(seccion prm_seccion) {
 		return repo.insert(prm_seccion);
 	}
-	public Optional<seccion> findById(Double prm_id) {
+	public Optional<seccion> findById(Integer prm_id) {
 		return repo.findById(prm_id);
 	}
 	public List<seccion> findAll() {
@@ -26,14 +26,5 @@ public class seccion_service {
 	}
 	public seccion update(seccion prm_seccion) {
 		return repo.save(prm_seccion);
-	}
-	public boolean delete(Double prm_id_seccion) {
-		try {
-			repo.deleteById(prm_id_seccion);
-			return true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return false;
-		}
 	}
 }
