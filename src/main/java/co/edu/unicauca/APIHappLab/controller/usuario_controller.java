@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,20 +39,20 @@ public class usuario_controller {
 		return ResponseEntity.ok(obj_persona);
 	}
 	@PostMapping("/registro")
-	public ResponseEntity<persona> create(@Valid @RequestBody persona_dto dto,BindingResult b_result) {
+	public ResponseEntity<?> create(@Valid @RequestBody persona_dto dto,BindingResult b_result) {
 		persona rta;
 		persona obj_persona = dto.to_persona();
 		obj_persona.setPendiente(true);
-		obj_persona.setRol(Role.usuario);
+		obj_persona.addRol(Role.USER);
 		try {
 			rta = service.create(dto.to_persona());
+			return ResponseEntity.ok().body(rta);
 		}catch (Exception ex) {
 			if (b_result.hasErrors()) {
-				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(b_result.getAllErrors());
 			}
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok().body(rta);
 	}
 	@PutMapping("/update")
 	public persona_dto updatePersona(@Valid @RequestBody persona_dto dto, BindingResult bindingResult) {
