@@ -1,7 +1,7 @@
 package co.edu.unicauca.APIHappLab.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -21,10 +21,13 @@ import co.edu.unicauca.APIHappLab.DTO.contenido_dto;
 public class contenido {
 	@Id
 	private String id_contenido;
+	@NotBlank(message="campo link obligatorio")
+	@NotEmpty(message="campo link obligatorio")
+	private String titulo;
 	@DBRef
 	private persona id_autor;
 	@NotNull
-	private Date fecha_subida;
+	private LocalDate fecha_subida;
 	@NotBlank(message="campo link obligatorio")
 	@NotEmpty(message="campo link obligatorio")
 	@Indexed(unique=true, direction=IndexDirection.DESCENDING, dropDups=true)
@@ -44,8 +47,8 @@ public class contenido {
 	@NotNull
 	private ArrayList<rate> comentarios;
 	
-	public contenido(persona id_autor, Date fecha_subida, String link, String resumen,
-			ArrayList<String> autores, ArrayList<String> tags) {
+	public contenido(persona id_autor, LocalDate fecha_subida, String link, String resumen,
+			ArrayList<String> autores, ArrayList<String> tags,String titulo) {
 		super();
 		this.id_autor = id_autor;
 		this.fecha_subida = fecha_subida;
@@ -54,11 +57,17 @@ public class contenido {
 		this.autores = autores;
 		this.tags = tags;
 		this.comentarios = new ArrayList<rate>();
+		this.titulo=titulo;
 	}
 	public contenido_dto to_contenido_dto(){
-		return new contenido_dto( id_autor.getEmail() , null , resumen, autores, tags,comentarios);
+		return new contenido_dto( id_autor.getEmail() , null , resumen, autores, tags,comentarios,titulo);
 	}
-
+	public String getTitulo() {
+		return titulo;
+	}
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
+	}
 	public boolean isVisible() {
 		return visible;
 	}
@@ -91,11 +100,11 @@ public class contenido {
 		this.id_autor = id_autor;
 	}
 
-	public Date getFecha_subida() {
+	public LocalDate getFecha_subida() {
 		return fecha_subida;
 	}
 
-	public void setFecha_subida(Date fecha_subida) {
+	public void setFecha_subida(LocalDate fecha_subida) {
 		this.fecha_subida = fecha_subida;
 	}
 

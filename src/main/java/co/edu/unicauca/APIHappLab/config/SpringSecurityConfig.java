@@ -12,7 +12,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-
+@Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
 	private UserDetailsService usuarioService;

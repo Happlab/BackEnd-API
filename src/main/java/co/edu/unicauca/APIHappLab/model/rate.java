@@ -1,6 +1,6 @@
 package co.edu.unicauca.APIHappLab.model;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -26,7 +26,7 @@ public class rate {
 	@NotEmpty(message="campo password obligatorio")
 	private String comentario;
 	@NotNull
-	private Date fecha_calificacion;
+	private LocalDate fecha_calificacion;
 	
 	public rate() {
 	}
@@ -39,15 +39,14 @@ public class rate {
 	}
 	
 	public rate_dto to_rate_dto() {
-		return new rate_dto(this.id_persona.getEmail(), this.valoracion, this.comentario, this.fecha_calificacion);
-		
+		return new rate_dto(this.id_persona.getEmail(), this.valoracion, this.comentario);
 	}
 	
-	public Date getFecha_calificacion() {
+	public LocalDate getFecha_calificacion() {
 		return fecha_calificacion;
 	}
 
-	public void setFecha_calificacion(Date fecha_calificacion) {
+	public void setFecha_calificacion(LocalDate fecha_calificacion) {
 		this.fecha_calificacion = fecha_calificacion;
 	}
 

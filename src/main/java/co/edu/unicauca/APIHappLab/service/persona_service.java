@@ -89,9 +89,9 @@ public class persona_service implements UserDetailsService{
 			throw new UsernameNotFoundException("Error en el login: no existe el usuario '"+email+"' en el sistema!");
 		}
 		
-		List<GrantedAuthority> authorities = usuario.getRoles()
+		List<GrantedAuthority> authorities = usuario.getRol()
 				.stream()
-				.map(role -> new SimpleGrantedAuthority(role.getNombre()))
+				.map(role -> new SimpleGrantedAuthority(role.name()))
 				.peek(authority -> logger.info("Role: " + authority.getAuthority()))
 				.collect(Collectors.toList());
 		

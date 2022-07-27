@@ -1,7 +1,7 @@
 package co.edu.unicauca.APIHappLab.model;
 
 
-import java.util.Date;
+import java.time.LocalDate;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
@@ -28,7 +28,7 @@ public class noticia {
 	@NotNull
 	private boolean visible;
 	@NotNull
-	private Date fecha_creacion;
+	private LocalDate fecha_creacion;
 	
 	public noticia(String titulo_noticia, String url_noticia, String link_contenido, boolean visible) {
 		super();
@@ -79,10 +79,10 @@ public class noticia {
 	public void setVisible(boolean visible) {
 		this.visible = visible;
 	}
-	public Date getFecha_creacion() {
+	public LocalDate getFecha_creacion() {
 		return fecha_creacion;
 	}
-	public void setFecha_creacion(Date fecha_creacion) {
+	public void setFecha_creacion(LocalDate fecha_creacion) {
 		this.fecha_creacion = fecha_creacion;
 	}
 

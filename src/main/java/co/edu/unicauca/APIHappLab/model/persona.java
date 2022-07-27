@@ -1,5 +1,8 @@
 package co.edu.unicauca.APIHappLab.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +15,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import co.edu.unicauca.APIHappLab.DTO.persona_dto;
+import co.edu.unicauca.APIHappLab.enums.Role;
 
 @Document(collection = "persona")
 public class persona {
@@ -35,9 +39,12 @@ public class persona {
 	@NotBlank(message="campo apellidos obligatorio")
 	@NotEmpty(message="campo apellidos obligatorio")
 	private String apellidos;
+	@NotBlank(message="campo tipo docente obligatorio")
+	@NotEmpty(message="campo tipo docente obligatorio")
+	private String tipo_docente;
 	@NotBlank(message="campo rol obligatorio")
 	@NotEmpty(message="campo rol obligatorio")
-	private String rol;
+	private List<Role> rol;
 	@NotNull
 	@Min(value=0)
 	private int tokens;
@@ -50,14 +57,15 @@ public class persona {
 		
 	}
 
-	public persona(String email,String password,Long cedula,String nombres,String apellidos,String rol, int tokens, boolean activo, boolean pendiente) {
+	public persona(String email,String password,Long cedula,String nombres,String apellidos,String tipo_docente, int tokens, boolean activo, boolean pendiente) {
 		super();
 		this.email = email;
 		this.password = password;
 		this.cedula = cedula;
 		this.nombres = nombres;
 		this.apellidos = apellidos;
-		this.rol = rol;
+		this.tipo_docente = tipo_docente;
+		this.rol = new ArrayList<Role>();
 		this.tokens = tokens;
 		this.activo = activo;
 		this.pendiente = pendiente;
@@ -80,7 +88,7 @@ public class persona {
 	}
 
 	public persona_dto to_persona_dto() {
-		return new persona_dto(this.email,this.password,this.cedula,this.nombres,this.apellidos,this.rol,this.tokens,this.activo,this.pendiente);
+		return new persona_dto(this.email,this.password,this.cedula,this.nombres,this.apellidos,this.tipo_docente,this.tokens,this.activo,this.pendiente);
 	}
 
 	public String getId_usuario() {
@@ -131,14 +139,17 @@ public class persona {
 		this.apellidos = apellidos;
 	}
 
-	public String getRol() {
+	public List<Role> getRol() {
 		return rol;
 	}
 
-	public void setRol(String rol) {
+	public void setRol(List<Role> rol) {
 		this.rol = rol;
 	}
 
+	public void addRol(Role rol) {
+		this.rol.add(rol);
+	}
 	public int getTokens() {
 		return tokens;
 	}

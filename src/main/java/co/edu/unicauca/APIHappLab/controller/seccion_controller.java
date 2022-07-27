@@ -29,7 +29,6 @@ import co.edu.unicauca.APIHappLab.service.seccion_service;
 
 @RestController
 @RequestMapping("/seccion")
-@CrossOrigin({"http://localhost:8080","http://localhost:3000"})
 public class seccion_controller {
 
 	private Path carpeta_root = Paths.get(new FileSystemResource("").getFile().getAbsolutePath()+"\\ContenidoSeccion");
@@ -90,7 +89,7 @@ public class seccion_controller {
 				return ResponseEntity.internalServerError().body("message: error al guardar el archivo "+e.getMessage());
 			}
 		}
-		obj_seccion.setUrl(pathVar_seccion.getTitulo_seccion());
+		obj_seccion.setUrl(pathVar_seccion.getUrl());
 		obj_seccion.setDescripcion(pathVar_seccion.getDescripcion());
 		obj_seccion.setCoordenadas(pathVar_seccion.getCoordenadas());
 		seccion rta;
