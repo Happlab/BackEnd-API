@@ -1,6 +1,5 @@
 package co.edu.unicauca.APIHappLab.controller;
 
-import java.util.List;
 
 import javax.validation.Valid;
 
@@ -29,14 +28,21 @@ public class usuario_controller {
 	private persona_service service;
 	
 	@GetMapping("/")
-	public ResponseEntity<List<persona>> readAll(){
+	public ResponseEntity<?> readAll(){
 		return ResponseEntity.ok(service.findAll());
 	}
 	@GetMapping("/{Email}")
-	public ResponseEntity<persona> findbyEmail(@PathVariable String Email){
-		persona obj_persona = service.findPersonaByEmail(Email);
-		if (obj_persona==null) return ResponseEntity.notFound().build();
-		return ResponseEntity.ok(obj_persona);
+	public ResponseEntity<?> findbyEmail(@PathVariable String Email){
+		persona obj_persona;
+		try {
+			obj_persona = service.findPersonaByEmail(Email);
+			if (obj_persona==null) return ResponseEntity.notFound().build();
+			return ResponseEntity.ok(obj_persona);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().body("Error al buscar persona "+e.getMessage());
+		}
+
 	}
 	@PostMapping("/registro")
 	public ResponseEntity<?> create(@Valid @RequestBody persona_dto dto,BindingResult b_result) {
@@ -55,25 +61,47 @@ public class usuario_controller {
 		}
 	}
 	@PutMapping("/update")
-	public persona_dto updatePersona(@Valid @RequestBody persona_dto dto, BindingResult bindingResult) {
-		persona obj_persona = dto.to_persona();
-		obj_persona.setId_usuario(service.findPersonaByEmail(dto.getEmail()).getId_usuario());
-		return service.update(obj_persona).to_persona_dto();
+	public ResponseEntity<?> updatePersona(@Valid @RequestBody persona_dto dto, BindingResult bindingResult) {
+		persona obj_persona_dto = dto.to_persona();
+		persona obj_persona_db;
+		try {
+			obj_persona_db = service.findPersonaByEmail(dto.getEmail());
+		} catch (Exception e1) {
+			e1.printStackTrace();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("message: Persona no encontrada");
+		}
+		obj_persona_dto.setId_usuario(obj_persona_db.getId_usuario());
+		obj_persona_dto.setRol(obj_persona_db.getRol());
+		persona respuesta;
+		try {
+			respuesta = service.update(obj_persona_dto);
+			return ResponseEntity.ok(respuesta);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().body("message: error al actualizar persona "+e.getMessage());
+		}
+		
 	}
 	@DeleteMapping("/desactivar/{Email}")
-	public ResponseEntity<String> desactivar(@PathVariable String Email) {
-		persona obj_persona = service.findPersonaByEmail(Email);
-		if (obj_persona==null) return ResponseEntity.notFound().build();
+	public ResponseEntity<?> desactivar(@PathVariable String Email) {
+		persona obj_persona;
+		try {
+			obj_persona = service.findPersonaByEmail(Email);
+			if (obj_persona==null) return ResponseEntity.notFound().build();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("no se encontreo la persona "+e.getMessage());
+		}
 		obj_persona.setActivo(false);
 		try {
-		service.update(obj_persona);
+			service.update(obj_persona);
 		return ResponseEntity.ok("message: se desactivo con exito ");
 		}catch (Exception e){
 			return ResponseEntity.internalServerError().body(e.getMessage());
 		}
 	}
 	@DeleteMapping("/delete/{Email}")
-	public ResponseEntity<String> delete(@PathVariable String Email) {
+	public ResponseEntity<?> delete(@PathVariable String Email) {
 		if(service.deleteByEmail(Email)) {
 			return ResponseEntity.ok("message: Borrado con exito");
 		}
