@@ -7,12 +7,24 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.mongodb.core.mapping.event.ValidatingMongoEventListener;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+@SpringBootApplication
 public class ApiHappLabApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(ApiHappLabApplication.class, args);
 	}
+
+	/*@Override
+	public void run(String... args) throws Exception {
+		
+		String password = "12345";
+		
+		for (int i = 0; i < 4; i++) {
+			String passwordBcrypt = passwordEncoder.encode(password);
+			System.out.println(passwordBcrypt);
+		}
+		
+	}*/
 
 	@Bean
 	public ValidatingMongoEventListener validatingMongoEventListener() {
