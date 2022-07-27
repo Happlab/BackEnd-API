@@ -1,7 +1,7 @@
 package co.edu.unicauca.APIHappLab.model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -27,7 +27,7 @@ public class contenido {
 	@DBRef
 	private persona id_autor;
 	@NotNull
-	private Date fecha_subida;
+	private LocalDate fecha_subida;
 	@NotBlank(message="campo link obligatorio")
 	@NotEmpty(message="campo link obligatorio")
 	@Indexed(unique=true, direction=IndexDirection.DESCENDING, dropDups=true)
@@ -47,7 +47,7 @@ public class contenido {
 	@NotNull
 	private ArrayList<rate> comentarios;
 	
-	public contenido(persona id_autor, Date fecha_subida, String link, String resumen,
+	public contenido(persona id_autor, LocalDate fecha_subida, String link, String resumen,
 			ArrayList<String> autores, ArrayList<String> tags,String titulo) {
 		super();
 		this.id_autor = id_autor;
@@ -100,11 +100,11 @@ public class contenido {
 		this.id_autor = id_autor;
 	}
 
-	public Date getFecha_subida() {
+	public LocalDate getFecha_subida() {
 		return fecha_subida;
 	}
 
-	public void setFecha_subida(Date fecha_subida) {
+	public void setFecha_subida(LocalDate fecha_subida) {
 		this.fecha_subida = fecha_subida;
 	}
 

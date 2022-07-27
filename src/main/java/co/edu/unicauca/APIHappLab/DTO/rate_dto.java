@@ -1,6 +1,5 @@
 package co.edu.unicauca.APIHappLab.DTO;
 
-import java.util.Date;
 
 import co.edu.unicauca.APIHappLab.model.rate;
 
@@ -11,8 +10,7 @@ public class rate_dto {
 	private String comentario;
 	public rate_dto() {
 	}
-	public rate_dto(String email_persona, double valoracion, String comentario,
-			Date fecha_calificacion) {
+	public rate_dto(String email_persona, double valoracion, String comentario) {
 		super();
 		this.email_persona = email_persona;
 		this.valoracion = valoracion;

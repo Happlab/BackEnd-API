@@ -3,7 +3,8 @@ package co.edu.unicauca.APIHappLab.controller;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -79,9 +80,9 @@ public class noticia_controller {
 	public ResponseEntity<?> create(@Valid @ModelAttribute noticia_dto dto_noticia) {
 		noticia obj_noticia = dto_noticia.to_noticia();
 		try {
-			obj_noticia.setFecha_creacion(new Date());
+			obj_noticia.setFecha_creacion(LocalDate.now());
 			MultipartFile img = dto_noticia.getImagen();
-			String nombre_archivo = obj_noticia.getFecha_creacion().getTime() + img.getOriginalFilename();
+			String nombre_archivo = LocalTime.now().getNano() + img.getOriginalFilename();
 			Files.copy(img.getInputStream(), this.carpeta_root.resolve(nombre_archivo));
 			obj_noticia.setLink_contenido(nombre_archivo);
 			noticia respuesta = service.create(obj_noticia);

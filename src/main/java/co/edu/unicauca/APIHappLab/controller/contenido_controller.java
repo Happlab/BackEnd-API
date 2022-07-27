@@ -5,7 +5,8 @@ import java.net.MalformedURLException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,12 +50,24 @@ public class contenido_controller {
 		@Autowired
 		private persona_service p_service;
 		@GetMapping("/")
-		public List<contenido> readAll(){
-			return service.findAll();
+		public ResponseEntity<?> readAll(){
+			try {
+				List<contenido> rta=service.findAll();
+				return ResponseEntity.ok(rta);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.internalServerError().body("message:"+e.getMessage());
+			}
 		}
 		@GetMapping("/{contenido_link}")
-		public Optional<contenido> findby_contenido_link(@PathVariable String contenido_link){
-			return service.findby_contenido_link(contenido_link);
+		public ResponseEntity<?> findby_contenido_link(@PathVariable String contenido_link){
+			try {
+				Optional<contenido> rta = service.findby_contenido_link(contenido_link);
+				return ResponseEntity.ok(rta);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("message: no se encontro el archivo"+e.getMessage());
+			}
 		}
 		@GetMapping("/download/{contenido_link}")
 		public ResponseEntity<?> downloadbyId(@PathVariable String contenido_link) throws MalformedURLException{
@@ -72,29 +85,37 @@ public class contenido_controller {
 				}
 		}
 		@PostMapping("/create")
-		public contenido create(@ModelAttribute contenido_dto dto) {
+		public ResponseEntity<?> create(@ModelAttribute contenido_dto dto) {
 			contenido obj_contenido = dto.to_contenido();
 			persona auth;
 			try {
 				auth = p_service.findPersonaByEmail(dto.getEmail_autor());
 				obj_contenido.setId_autor(auth);
-				obj_contenido.setFecha_subida(new Date());
+				obj_contenido.setFecha_subida(LocalDate.now());
 				obj_contenido.setPendiente(true);
 				obj_contenido.setVisible(false);
 				obj_contenido.setValoracion_general(0.0);
-			}catch(Exception ex){
-				return null;
+			}catch(Exception e){
+				return ResponseEntity.internalServerError().body("message: error al llenar obj_persona "+e.getMessage());
 			}
 			MultipartFile archivo = dto.getArchivo();
 			try {
-				String nombre_archivo = ""+obj_contenido.getId_autor().getId_usuario()+obj_contenido.getFecha_subida().getTime()+archivo.getOriginalFilename();
+				String nombre_archivo = ""+obj_contenido.getId_autor().getId_usuario() + LocalTime.now().getNano() + archivo.getOriginalFilename();
 				Files.copy(archivo.getInputStream(), this.carpeta_root.resolve(nombre_archivo));
 				obj_contenido.setLink(nombre_archivo);
 			} catch (Exception e) {
 				e.printStackTrace();
-				return null;
+				ResponseEntity.internalServerError().body("message: error al guardar archivo "+e.getMessage());
 			}
-			return service.create(obj_contenido);
+			contenido rta;
+			try {
+				rta = service.create(obj_contenido);
+				return ResponseEntity.ok(rta);
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.internalServerError().body("message:error al guardar la informacion en bdd "+ e.getMessage());
+			}
+
 		}
 		@PutMapping("/update")
 		public ResponseEntity<?> update(@Validated @RequestBody contenido body_contenido) {
@@ -129,7 +150,7 @@ public class contenido_controller {
 			}
 			rate obj_rate = dto_rate.to_rate();
 			obj_rate.setId_persona(p_service.findPersonaByEmail(dto_rate.getEmail_persona()));
-			obj_rate.setFecha_calificacion(new Date());
+			obj_rate.setFecha_calificacion(LocalDate.now());
 			if(obj_contenido.getComentarios().isEmpty()) {
 				obj_contenido.setValoracion_general(obj_rate.getValoracion());
 			}else {
