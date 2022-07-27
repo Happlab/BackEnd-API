@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.edu.unicauca.APIHappLab.DTO.persona_dto;
+import co.edu.unicauca.APIHappLab.enums.Role;
 import co.edu.unicauca.APIHappLab.model.persona;
 import co.edu.unicauca.APIHappLab.service.persona_service;
 
@@ -40,11 +41,13 @@ public class usuario_controller {
 		return ResponseEntity.ok(obj_persona);
 	}
 	@PostMapping("/registro")
-	public ResponseEntity<persona_dto> create(@Valid @RequestBody persona_dto dto,BindingResult b_result) {
-		persona_dto rta;
-		dto.setPendiente(true);
+	public ResponseEntity<persona> create(@Valid @RequestBody persona_dto dto,BindingResult b_result) {
+		persona rta;
+		persona obj_persona = dto.to_persona();
+		obj_persona.setPendiente(true);
+		obj_persona.setRol(Role.usuario);
 		try {
-			rta = service.create(dto.to_persona()).to_persona_dto();
+			rta = service.create(dto.to_persona());
 		}catch (Exception ex) {
 			if (b_result.hasErrors()) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

@@ -8,12 +8,12 @@ public class persona_dto {
 	private Long cedula;
 	private String nombres;
 	private String apellidos;
-	private String rol;
+	private String tipo_profesor;
 	private int tokens;
 	private boolean activo;
 	private boolean pendiente;
 
-	public persona_dto(String email, String password, Long cedula, String nombres, String apellidos, String rol,
+	public persona_dto(String email, String password, Long cedula, String nombres, String apellidos,String tipo_profesor,
 			int tokens, boolean activo, boolean pendiente) {
 		super();
 		this.email = email;
@@ -21,7 +21,7 @@ public class persona_dto {
 		this.cedula = cedula;
 		this.nombres = nombres;
 		this.apellidos = apellidos;
-		this.rol = rol;
+		this.tipo_profesor = tipo_profesor;
 		this.tokens = tokens;
 		this.activo = activo;
 		this.pendiente = pendiente;
@@ -29,7 +29,7 @@ public class persona_dto {
 
 
 	public persona to_persona() {
-		return new persona(email, password, cedula, nombres, apellidos, rol, tokens,activo,pendiente);
+		return new persona(email, password, cedula, nombres, apellidos, tipo_profesor, tokens,activo,pendiente);
 	}
 	
 	public boolean isActivo() {
@@ -86,14 +86,6 @@ public class persona_dto {
 
 	public void setApellidos(String apellidos) {
 		this.apellidos = apellidos;
-	}
-
-	public String getRol() {
-		return rol;
-	}
-
-	public void setRol(String rol) {
-		this.rol = rol;
 	}
 
 	public int getTokens() {
