@@ -57,7 +57,7 @@ public class usuario_controller {
 			if (b_result.hasErrors()) {
 				return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(b_result.getAllErrors());
 			}
-			return ResponseEntity.notFound().build();
+			return ResponseEntity.internalServerError().body("message error en: "+ex.getMessage());
 		}
 	}
 	@PutMapping("/update")
