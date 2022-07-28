@@ -6,6 +6,8 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,6 +49,14 @@ public class JwtUtilService {
 		return createToken(claims, userDetails.getUsername());
 	}
 
+	public String generateTokenWithContent(UserDetails userDetails,Object content) {
+		Map<String, Object> claims = new HashMap<>();
+		ObjectMapper mapper=new ObjectMapper();
+		claims = mapper.convertValue(content, HashMap.class);
+
+		return createToken(claims, userDetails.getUsername());
+	}
+	
 	private String createToken(Map<String, Object> claims, String subject) {
 
 		return Jwts.builder().setClaims(claims).setSubject(subject).setIssuedAt(new Date(System.currentTimeMillis()))

@@ -123,23 +123,20 @@ public class usuario_controller {
 		return ResponseEntity.internalServerError().body("message: usuario no encontrado");
 	}
 
-	@GetMapping("/Login/{Email}&{Contraseña}")
-	public ResponseEntity<?> login(@PathVariable String Email, @PathVariable String Contraseña) {
-		persona obj_persona = service.login(Email, Contraseña);
-		if (obj_persona == null)
-			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Message: Error al logear");
-		return ResponseEntity.ok(obj_persona);
-	}
-
 	@GetMapping("/auth/")
 	public ResponseEntity<?> authenticate(@RequestParam String Email, @RequestParam String Contraseña) {
 
 		authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(Email, Contraseña));
 		
-		final UserDetails userDetails = service.loadUserByUsername(Email);
-
-		final String jwt = "Token: " + jwtUtilService.generateToken(userDetails);
-
-		return ResponseEntity.ok(jwt);
+		UserDetails userDetails;
+		try {
+			userDetails = service.loadUserByUsername(Email);
+	//		final String jwt = "Token: " + jwtUtilService.generateToken(userDetails);
+			final String jwt = "Token: " + jwtUtilService.generateTokenWithContent(userDetails, service.findPersonaByEmail(Email));
+			return ResponseEntity.ok(jwt);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("message:usuario o contraseña incorrecto"+e.getMessage());
+		}
 	}
 }

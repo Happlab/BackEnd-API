@@ -1,5 +1,6 @@
 package co.edu.unicauca.APIHappLab.config;
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,12 +45,13 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-		.authorizeRequests().antMatchers("/**").permitAll()
-		/*		.antMatchers(HttpMethod.GET, "/persona/Login/**","/persona/auth/**", "/persona/registro").permitAll()
-		.antMatchers(HttpMethod.GET, "/persona/", "/persona/{Email}").hasAnyRole("USER", "ADMIN")
+		.authorizeRequests()
+	//	.antMatchers("/**").permitAll()
+		.antMatchers(HttpMethod.GET, "/persona/Login/**","/persona/auth/**", "/persona/registro").permitAll()
+		.antMatchers(HttpMethod.GET, "/persona/", "/persona/{Email}").hasRole("ADMIN")
 		.antMatchers(HttpMethod.PUT, "/persona/update").hasAnyRole("USER", "ADMIN")
 		.antMatchers(HttpMethod.DELETE, "/persona/desactivar/{Email}", "/persona/delete/{Email}").hasRole("ADMIN")
-		.antMatchers("/persona/**").hasRole("ADMIN")*/
+		.antMatchers("/persona/**").hasRole("ADMIN")
 		.anyRequest().authenticated()
 		.and().cors()
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
