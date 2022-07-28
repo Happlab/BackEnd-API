@@ -24,6 +24,7 @@ public class persona_service implements UserDetailsService{
 	private Logger logger = LoggerFactory.getLogger(persona_service.class);
 	@Autowired
 	private I_persona_repository repo;
+	
 	private BCryptPasswordEncoder encoder;
 	
 	public persona_service() {
