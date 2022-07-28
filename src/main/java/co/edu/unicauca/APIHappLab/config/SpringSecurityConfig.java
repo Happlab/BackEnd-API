@@ -44,17 +44,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter implement
 		return super.authenticationManagerBean();
 	}
 	
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManager() throws Exception {
+		return super.authenticationManager();
+	}
+	
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http
 		.csrf().disable()
 		.authorizeRequests()
 		.antMatchers("/**").permitAll()
-		.antMatchers(HttpMethod.GET, "/persona/auth/**", "/persona/registro").permitAll()
-		.antMatchers(HttpMethod.GET, "/persona/", "/persona/{Email}").hasRole(Role.ADMIN.name())
-		.antMatchers(HttpMethod.PUT, "/persona/update").hasAnyRole("USER", "ADMIN")
-		.antMatchers(HttpMethod.DELETE, "/persona/desactivar/{Email}", "/persona/delete/{Email}").hasRole("ADMIN")
-		.antMatchers("/persona/**").hasRole("ADMIN")
 		.anyRequest().authenticated()
 		.and().cors()
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

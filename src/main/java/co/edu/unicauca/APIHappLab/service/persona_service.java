@@ -63,18 +63,6 @@ public class persona_service implements UserDetailsService{
 		}
 	}
 	
-	public persona login(String email,String password) {
-		try {
-		 persona customer = repo.findByEmail(email);
-		 if(customer==null) {return null;}
-		 if (encoder.matches(password, customer.getPassword()) && (customer.isActivo()) && !(customer.isPendiente())) {
-			return customer;
-		 }
-		 return null;
-		}catch(Exception e){
-			return null;
-		}
-	}
 	@Override
 	@Transactional(readOnly=true)
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
