@@ -1,5 +1,6 @@
 package co.edu.unicauca.APIHappLab.config;
 
 public class JwtConfig {
-    public static final String LLAVE_SECRETA = "alguna.clave.secreta.12345678";
+	//alguna.clave.secreta.12345678->base64->YWxndW5hLmNsYXZlLnNlY3JldGEuMTIzNDU2Nzg=
+    public static final String LLAVE_SECRETA = "YWxndW5hLmNsYXZlLnNlY3JldGEuMTIzNDU2Nzg=";
 }

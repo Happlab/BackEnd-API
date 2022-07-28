@@ -6,6 +6,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,6 @@ import co.edu.unicauca.APIHappLab.DTO.persona_dto;
 import co.edu.unicauca.APIHappLab.enums.Role;
 import co.edu.unicauca.APIHappLab.model.persona;
 import co.edu.unicauca.APIHappLab.service.persona_service;
-
 @RestController
 @RequestMapping("/persona")
 public class usuario_controller {
@@ -112,5 +112,10 @@ public class usuario_controller {
 		persona obj_persona = service.login(Email, Contraseña);
 		if(obj_persona==null) return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Message: Error al logear");
 		return ResponseEntity.ok(obj_persona);
+	}
+	@GetMapping("/Login2/{Email}&{Contraseña}")
+	public ResponseEntity<?> loginToken(@PathVariable String Email,@PathVariable String Contraseña) {
+		
+		return null;
 	}
 }

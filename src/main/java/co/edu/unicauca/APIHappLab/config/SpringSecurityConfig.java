@@ -8,13 +8,14 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import co.edu.unicauca.APIHappLab.service.persona_service;
 
 @Configuration
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-	private UserDetailsService usuarioService;
+	private persona_service usuarioService;
 	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
@@ -22,7 +23,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 
 	@Override
-	@Autowired
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(this.usuarioService).passwordEncoder(passwordEncoder());
 	}
