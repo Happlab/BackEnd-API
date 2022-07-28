@@ -42,8 +42,6 @@ public class persona {
 	@NotBlank(message="campo tipo docente obligatorio")
 	@NotEmpty(message="campo tipo docente obligatorio")
 	private String tipo_docente;
-	@NotBlank(message="campo rol obligatorio")
-	@NotEmpty(message="campo rol obligatorio")
 	private List<Role> rol;
 	@NotNull
 	@Min(value=0)

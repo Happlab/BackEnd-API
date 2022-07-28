@@ -44,14 +44,18 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	public void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable()
-		.authorizeRequests()
-		.antMatchers(HttpMethod.GET, "/persona/Login/**", "/persona/registro").permitAll()
+		.authorizeRequests().antMatchers("/**").permitAll()
+		/*		.antMatchers(HttpMethod.GET, "/persona/Login/**","/persona/auth/**", "/persona/registro").permitAll()
 		.antMatchers(HttpMethod.GET, "/persona/", "/persona/{Email}").hasAnyRole("USER", "ADMIN")
 		.antMatchers(HttpMethod.PUT, "/persona/update").hasAnyRole("USER", "ADMIN")
 		.antMatchers(HttpMethod.DELETE, "/persona/desactivar/{Email}", "/persona/delete/{Email}").hasRole("ADMIN")
-		.antMatchers("/persona/**").hasRole("ADMIN")
+		.antMatchers("/persona/**").hasRole("ADMIN")*/
 		.anyRequest().authenticated()
+		.and().cors()
 		.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		
 	http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
 	}
+
+
 }
