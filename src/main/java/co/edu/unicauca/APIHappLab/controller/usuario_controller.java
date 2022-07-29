@@ -131,9 +131,7 @@ public class usuario_controller {
 		UserDetails userDetails;
 		try {
 			userDetails = service.loadUserByUsername(Email);
-	//		final String jwt = "Token: " + jwtUtilService.generateToken(userDetails);
-			final String jwt = "Token: " + jwtUtilService.generateTokenWithContent(userDetails, service.findPersonaByEmail(Email));
-			return ResponseEntity.ok(jwt);
+			return ResponseEntity.ok(jwtUtilService.generateTokenWithContent(userDetails, service.findPersonaByEmail(Email)));
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("message:usuario o contraseña incorrecto"+e.getMessage());
