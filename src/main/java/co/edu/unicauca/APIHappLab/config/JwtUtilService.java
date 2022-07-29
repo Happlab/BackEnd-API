@@ -53,7 +53,6 @@ public class JwtUtilService {
 		Map<String, Object> claims = new HashMap<>();
 		ObjectMapper mapper=new ObjectMapper();
 		claims = mapper.convertValue(content, HashMap.class);
-
 		return createToken(claims, userDetails.getUsername());
 	}
 	
