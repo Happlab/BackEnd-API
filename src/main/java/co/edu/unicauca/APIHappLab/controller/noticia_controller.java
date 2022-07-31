@@ -38,9 +38,10 @@ import java.util.Date;
 public class noticia_controller {
 	@Autowired
 	private noticia_service service;
-	private Path carpeta_root = Paths.get(new FileSystemResource("").getFile().getAbsolutePath()+"\\Noticias");
+	private Path carpeta_root = Paths.get(new FileSystemResource("").getFile().getAbsolutePath() + "\\Noticias");
+
 	@GetMapping("/")
-	public ResponseEntity<?> readAll(){
+	public ResponseEntity<?> readAll() {
 		try {
 			List<noticia> respuesta = service.findAll();
 			return ResponseEntity.ok(respuesta);
@@ -49,8 +50,9 @@ public class noticia_controller {
 			return ResponseEntity.notFound().build();
 		}
 	}
+
 	@GetMapping("/{noticia_id}")
-	public ResponseEntity<?> findbyId(@PathVariable String noticia_id){
+	public ResponseEntity<?> findbyId(@PathVariable String noticia_id) {
 		try {
 			Optional<noticia> respuesta = service.findById(noticia_id);
 			return ResponseEntity.ok(respuesta);
@@ -59,22 +61,24 @@ public class noticia_controller {
 			return ResponseEntity.notFound().build();
 		}
 	}
+
 	@GetMapping("/img/{link_contenido}")
-	public ResponseEntity<?> getImg(@PathVariable String link_contenido){
+	public ResponseEntity<?> getImg(@PathVariable String link_contenido) {
 		Path archivo;
 		Resource resource;
 		try {
 			archivo = carpeta_root.resolve(link_contenido);
 			resource = new UrlResource(archivo.toUri());
-			if(resource.isFile() || resource.isReadable()) {
+			if (resource.isFile() || resource.isReadable()) {
 				return ResponseEntity.ok().contentType(MediaType.MULTIPART_FORM_DATA).body(resource);
 			}
 			return ResponseEntity.status(HttpStatus.NO_CONTENT).body("no es archivo o no se puede leer");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.internalServerError().body("message: Error Al leer imagen: "+e.getMessage());
+			return ResponseEntity.internalServerError().body("message: Error Al leer imagen: " + e.getMessage());
 		}
 	}
+
 	@PostMapping("/create")
 	public ResponseEntity<?> create(@Valid @ModelAttribute noticia_dto dto_noticia) {
 		noticia obj_noticia = dto_noticia.to_noticia();
@@ -88,37 +92,46 @@ public class noticia_controller {
 			return ResponseEntity.ok(respuesta);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.internalServerError().body("message: Error en la creacion de noticia "+ e.getMessage());
+			return ResponseEntity.internalServerError()
+					.body("message: Error en la creacion de noticia " + e.getMessage());
 		}
 	}
+
 	@PutMapping("/Update/{Link_contenido}")
-	public ResponseEntity<?> updateNoticia(@Valid @ModelAttribute noticia_dto dto_noticia,@PathVariable String Link_contenido) {
+	public ResponseEntity<?> updateNoticia(@Valid @ModelAttribute noticia_dto dto_noticia,
+			@PathVariable String Link_contenido) {
 		noticia obj_noticia_db = service.findByLink_contenido(Link_contenido).get();
 		noticia obj_noticia_pv = dto_noticia.to_noticia();
 		obj_noticia_pv.setId_noticia(obj_noticia_db.getId_noticia());
 		obj_noticia_pv.setFecha_creacion(obj_noticia_db.getFecha_creacion());
-		try {
-			Files.deleteIfExists(carpeta_root.resolve(obj_noticia_db.getLink_contenido()));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return ResponseEntity.internalServerError().body("message: error al elminar archivo antiguo "+e.getMessage());
-		}
-		try {
-                    Date date = new Date();
-                    MultipartFile archivo = dto_noticia.getImagen();
-                    String nombre_archivo =date.getTime()+archivo.getOriginalFilename();
-                    Files.copy(archivo.getInputStream(), this.carpeta_root.resolve(nombre_archivo));
-                    obj_noticia_pv.setLink_contenido(nombre_archivo);
-                    noticia respuesta = service.update(obj_noticia_pv);
-                    return ResponseEntity.ok(respuesta);
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.internalServerError().body("message:Error en actualizar noticia: " + e.getMessage());
+		if (!dto_noticia.getImagen().isEmpty()) {
+			try {
+				Files.deleteIfExists(carpeta_root.resolve(obj_noticia_db.getLink_contenido()));
+			} catch (IOException e) {
+				e.printStackTrace();
+				return ResponseEntity.internalServerError()
+						.body("message: error al elminar archivo antiguo " + e.getMessage());
+			}
+			try {
+				Date date = new Date();
+				MultipartFile archivo = dto_noticia.getImagen();
+				String nombre_archivo = date.getTime() + archivo.getOriginalFilename();
+				Files.copy(archivo.getInputStream(), this.carpeta_root.resolve(nombre_archivo));
+				obj_noticia_pv.setLink_contenido(nombre_archivo);
+				return ResponseEntity.ok(service.update(obj_noticia_pv));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.internalServerError()
+						.body("message:Error en actualizar noticia: " + e.getMessage());
+			}
+		} else {
+			obj_noticia_pv.setLink_contenido(obj_noticia_db.getLink_contenido());
+			return ResponseEntity.ok(service.update(obj_noticia_pv));
 		}
 	}
-	
+
 	@DeleteMapping("/delete/{link_contenido}")
-	public ResponseEntity<?> deleteByLinkContenido(@Valid @PathVariable String link_contenido){
+	public ResponseEntity<?> deleteByLinkContenido(@Valid @PathVariable String link_contenido) {
 		try {
 			noticia obj_noticia = service.findByLink_contenido(link_contenido).get();
 			service.delete(obj_noticia.getId_noticia());
@@ -126,7 +139,14 @@ public class noticia_controller {
 			return ResponseEntity.ok().body("message: borrado con exito");
 		} catch (Exception e) {
 			e.printStackTrace();
-			return ResponseEntity.internalServerError().body("message:error al eliminar contenido debido a "+ e.getMessage());
+			return ResponseEntity.internalServerError()
+					.body("message:error al eliminar contenido debido a " + e.getMessage());
 		}
+	}
+	@PutMapping("/changeVisible")
+	public ResponseEntity<?> visible(@PathVariable String link_contenido){
+		noticia obj_noticia_db = service.findByLink_contenido(link_contenido).get();
+		obj_noticia_db.setVisible(!obj_noticia_db.isVisible());
+		return ResponseEntity.ok(service.update(obj_noticia_db));
 	}
 }
