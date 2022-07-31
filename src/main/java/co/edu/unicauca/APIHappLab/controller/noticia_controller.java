@@ -31,6 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 import co.edu.unicauca.APIHappLab.DTO.noticia_dto;
 import co.edu.unicauca.APIHappLab.model.noticia;
 import co.edu.unicauca.APIHappLab.service.noticia_service;
+import java.util.Date;
 
 @RestController
 @RequestMapping("/noticia")
@@ -97,15 +98,19 @@ public class noticia_controller {
 		obj_noticia_pv.setId_noticia(obj_noticia_db.getId_noticia());
 		obj_noticia_pv.setFecha_creacion(obj_noticia_db.getFecha_creacion());
 		try {
-			Files.deleteIfExists(carpeta_root.resolve(obj_noticia_db.getUrl_noticia()));
-			obj_noticia_pv.setUrl_noticia("");
+			Files.deleteIfExists(carpeta_root.resolve(obj_noticia_db.getLink_contenido()));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return ResponseEntity.internalServerError().body("message: error al elminar archivo antiguo "+e.getMessage());
 		}
 		try {
-			noticia respuesta = service.update(obj_noticia_pv);
-			return ResponseEntity.ok(respuesta);
+                    Date date = new Date();
+                    MultipartFile archivo = dto_noticia.getImagen();
+                    String nombre_archivo =date.getTime()+archivo.getOriginalFilename();
+                    Files.copy(archivo.getInputStream(), this.carpeta_root.resolve(nombre_archivo));
+                    obj_noticia_pv.setLink_contenido(nombre_archivo);
+                    noticia respuesta = service.update(obj_noticia_pv);
+                    return ResponseEntity.ok(respuesta);
 		} catch (Exception e) {
 			e.printStackTrace();
 			return ResponseEntity.internalServerError().body("message:Error en actualizar noticia: " + e.getMessage());
