@@ -1,5 +1,6 @@
 package co.edu.unicauca.APIHappLab.controller;
 
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -23,7 +24,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
@@ -90,10 +90,21 @@ public class noticia_controller {
 			return ResponseEntity.internalServerError().body("message: Error en la creacion de noticia "+ e.getMessage());
 		}
 	}
-	@PutMapping("/Update")
-	public ResponseEntity<?> updateNoticia(@Valid @RequestBody noticia body_noticia) {
+	@PutMapping("/Update/{Link_contenido}")
+	public ResponseEntity<?> updateNoticia(@Valid @ModelAttribute noticia_dto dto_noticia,@PathVariable String Link_contenido) {
+		noticia obj_noticia_db = service.findByLink_contenido(Link_contenido).get();
+		noticia obj_noticia_pv = dto_noticia.to_noticia();
+		obj_noticia_pv.setId_noticia(obj_noticia_db.getId_noticia());
+		obj_noticia_pv.setFecha_creacion(obj_noticia_db.getFecha_creacion());
 		try {
-			noticia respuesta = service.update(body_noticia);
+			Files.deleteIfExists(carpeta_root.resolve(obj_noticia_db.getUrl_noticia()));
+			obj_noticia_pv.setUrl_noticia("");
+		} catch (IOException e) {
+			e.printStackTrace();
+			return ResponseEntity.internalServerError().body("message: error al elminar archivo antiguo "+e.getMessage());
+		}
+		try {
+			noticia respuesta = service.update(obj_noticia_pv);
 			return ResponseEntity.ok(respuesta);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -101,17 +112,6 @@ public class noticia_controller {
 		}
 	}
 	
-/*	@DeleteMapping("/delete/{id_noticia}")
-	public ResponseEntity<?> delete(@Valid @PathVariable String id_noticia){
-		try {
-			service.delete(id_noticia);
-			Files.deleteIfExists(carpeta_root.resolve(contenido_link));
-			return ResponseEntity.ok().body("message: borrado con exito");
-		} catch (Exception e) {
-			e.printStackTrace();
-			return ResponseEntity.notFound().build();
-		}
-	}*/
 	@DeleteMapping("/delete/{link_contenido}")
 	public ResponseEntity<?> deleteByLinkContenido(@Valid @PathVariable String link_contenido){
 		try {
