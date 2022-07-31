@@ -143,7 +143,7 @@ public class noticia_controller {
 					.body("message:error al eliminar contenido debido a " + e.getMessage());
 		}
 	}
-	@PutMapping("/changeVisible")
+	@PutMapping("/changeVisible/{link_contenido}")
 	public ResponseEntity<?> visible(@PathVariable String link_contenido){
 		noticia obj_noticia_db = service.findByLink_contenido(link_contenido).get();
 		obj_noticia_db.setVisible(!obj_noticia_db.isVisible());
