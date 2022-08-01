@@ -31,7 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 import co.edu.unicauca.APIHappLab.DTO.noticia_dto;
 import co.edu.unicauca.APIHappLab.model.noticia;
 import co.edu.unicauca.APIHappLab.service.noticia_service;
-import java.util.Date;
 
 @RestController
 @RequestMapping("/noticia")
@@ -113,9 +112,8 @@ public class noticia_controller {
 						.body("message: error al elminar archivo antiguo " + e.getMessage());
 			}
 			try {
-				Date date = new Date();
 				MultipartFile archivo = dto_noticia.getImagen();
-				String nombre_archivo = date.getTime() + archivo.getOriginalFilename();
+				String nombre_archivo = LocalTime.now().getNano() + archivo.getOriginalFilename();
 				Files.copy(archivo.getInputStream(), this.carpeta_root.resolve(nombre_archivo));
 				obj_noticia_pv.setLink_contenido(nombre_archivo);
 				return ResponseEntity.ok(service.update(obj_noticia_pv));

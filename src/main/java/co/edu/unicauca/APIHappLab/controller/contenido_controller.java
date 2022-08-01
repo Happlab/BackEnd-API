@@ -115,14 +115,36 @@ public class contenido_controller {
 			}
 
 		}
-		@PutMapping("/update")
-		public ResponseEntity<?> update(@Validated @RequestBody contenido body_contenido) {
-			try {
-				contenido respuesta = service.update(body_contenido);
-				return ResponseEntity.ok(respuesta);
-			} catch (Exception e) {
-				e.printStackTrace();
-				return ResponseEntity.noContent().build();
+		@PutMapping("/update/{link_contenido}")
+		public ResponseEntity<?> update(@Validated @RequestBody contenido_dto dto_contenido, @PathVariable String link_contenido) {
+			contenido obj_contenido_db = service.findby_contenido_link(link_contenido).get();
+			contenido obj_contenido_pv = dto_contenido.to_contenido();
+			obj_contenido_pv.setId_contenido(obj_contenido_db.getId_contenido());
+			if(!dto_contenido.getEmail_autor().equals(obj_contenido_db.getId_autor().getEmail())&&dto_contenido.getEmail_autor().isBlank()){
+				obj_contenido_pv.setId_autor(p_service.findPersonaByEmail(dto_contenido.getEmail_autor()));
+			}
+			if (!dto_contenido.getArchivo().isEmpty()) {
+				try {
+					Files.deleteIfExists(carpeta_root.resolve(obj_contenido_db.getLink()));
+				} catch (IOException e) {
+					e.printStackTrace();
+					return ResponseEntity.internalServerError()
+							.body("message: error al elminar archivo antiguo " + e.getMessage());
+				}
+				try {
+					MultipartFile archivo = dto_contenido.getArchivo();
+					String nombre_archivo = ""+obj_contenido_pv.getId_autor().getId_usuario() + LocalTime.now().getNano() + archivo.getOriginalFilename();
+					Files.copy(archivo.getInputStream(), this.carpeta_root.resolve(nombre_archivo));
+					obj_contenido_pv.setLink(nombre_archivo);
+					return ResponseEntity.ok(service.update(obj_contenido_pv));
+				} catch (Exception e) {
+					e.printStackTrace();
+					return ResponseEntity.internalServerError()
+							.body("message:Error en actualizar noticia: " + e.getMessage());
+				}
+			} else {
+				obj_contenido_pv.setLink(obj_contenido_db.getLink());
+				return ResponseEntity.ok(service.update(obj_contenido_pv));
 			}
 		}
 		
@@ -161,6 +183,28 @@ public class contenido_controller {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return ResponseEntity.internalServerError().body("message: Error al Actualizar contenido en comentar "+e.getMessage());
+			}
+		}
+		@PutMapping("/changeVisible")
+		public ResponseEntity<?> visible(@PathVariable String link_contenido){
+			try {
+				contenido obj_contenido_db = service.findby_contenido_link(link_contenido).get();
+				obj_contenido_db.setVisible(!obj_contenido_db.isVisible());
+				return ResponseEntity.ok(service.update(obj_contenido_db));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("message: no se encontro el contenido " + e.getMessage());
+			}
+		}
+		@PutMapping("/changePendiente")
+		public ResponseEntity<?> pendiente(@PathVariable String link_contenido){
+			try {
+				contenido obj_contenido_db = service.findby_contenido_link(link_contenido).get();
+				obj_contenido_db.setPendiente(!obj_contenido_db.isPendiente());
+				return ResponseEntity.ok(service.update(obj_contenido_db));
+			} catch (Exception e) {
+				e.printStackTrace();
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("message: no se encontro el contenido " + e.getMessage());
 			}
 		}
 }
