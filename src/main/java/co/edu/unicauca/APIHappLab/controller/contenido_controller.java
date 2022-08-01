@@ -185,7 +185,7 @@ public class contenido_controller {
 				return ResponseEntity.internalServerError().body("message: Error al Actualizar contenido en comentar "+e.getMessage());
 			}
 		}
-		@PutMapping("/changeVisible")
+		@PutMapping("/changeVisible/{link_contenido}")
 		public ResponseEntity<?> visible(@PathVariable String link_contenido){
 			try {
 				contenido obj_contenido_db = service.findby_contenido_link(link_contenido).get();
@@ -196,7 +196,7 @@ public class contenido_controller {
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("message: no se encontro el contenido " + e.getMessage());
 			}
 		}
-		@PutMapping("/changePendiente")
+		@PutMapping("/changePendiente/{link_contenido}")
 		public ResponseEntity<?> pendiente(@PathVariable String link_contenido){
 			try {
 				contenido obj_contenido_db = service.findby_contenido_link(link_contenido).get();
