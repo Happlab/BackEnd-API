@@ -1,5 +1,7 @@
 package co.edu.unicauca.APIHappLab.repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
@@ -11,4 +13,6 @@ import co.edu.unicauca.APIHappLab.model.contenido;
 public interface I_contenido_repository extends MongoRepository<contenido,String>{
 	@Query("{ 'link' : ?0 }")
 	Optional<contenido> findByContenido_link(String contenido_link);
+
+	ArrayList<contenido> findByTags(List<String> tags);
 }

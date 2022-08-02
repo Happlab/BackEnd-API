@@ -7,6 +7,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -205,6 +206,17 @@ public class contenido_controller {
 			} catch (Exception e) {
 				e.printStackTrace();
 				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("message: no se encontro el contenido " + e.getMessage());
+			}
+		}
+		@GetMapping("buscar/{tags}")
+		public ResponseEntity<?> buscar(@PathVariable List<String> tags){
+			try {
+				ArrayList<contenido> respuesta = service.findByTags(tags);
+				return ResponseEntity.ok(respuesta);
+			}
+			catch(Exception e){
+				e.printStackTrace();
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("message: 'no se encontro nada'");
 			}
 		}
 }

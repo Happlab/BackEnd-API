@@ -1,5 +1,6 @@
 package co.edu.unicauca.APIHappLab.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +33,10 @@ public class contenido_service {
 
 	public void delete(String contenido_link) {
 		repo.delete(repo.findByContenido_link(contenido_link).get());
+	}
+
+	public ArrayList<contenido> findByTags(List<String> tags) {
+		return repo.findByTags(tags);
 	}
 	
 }
