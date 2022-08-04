@@ -137,4 +137,22 @@ public class usuario_controller {
 			return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("message:usuario o contraseña incorrecto"+e.getMessage());
 		}
 	}
+	@PutMapping("/modToken/{Email}&{cant_tokens}")
+	public ResponseEntity<?> updateToken(@PathVariable String Email,@PathVariable Integer cant_tokens){
+		persona obj_persona;
+		try {
+			obj_persona = service.findPersonaByEmail(Email);
+			if (obj_persona == null)
+				return ResponseEntity.status(HttpStatus.NOT_FOUND).body("message:'Persona no encontrada'");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("no se encontreo la persona " + e.getMessage());
+		}
+		obj_persona.setTokens(cant_tokens);
+		try {
+			return ResponseEntity.ok(service.update(obj_persona));
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body("message: 'error al actualizar tokens " + e.getMessage()+"'");
+		}
+	}
 }
