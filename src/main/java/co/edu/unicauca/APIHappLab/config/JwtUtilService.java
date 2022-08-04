@@ -19,8 +19,10 @@ public class JwtUtilService {
 	// alguna.clave.secreta.12345678->base64->YWxndW5hLmNsYXZlLnNlY3JldGEuMTIzNDU2Nzg=
 	private static final String JWT_SECRET_KEY = "YWxndW5hLmNsYXZlLnNlY3JldGEuMTIzNDU2Nzg=";
 
-	public static final long JWT_TOKEN_VALIDITY = 1000 * 60 * 60 * (long) 8; // 8 Horas
-
+	//public static final long JWT_TOKEN_VALIDITY = 1000 * 60 * 60 * (long) 8; // 8 Horas
+	//5min para tiempo de caducidad
+	public static final long JWT_TOKEN_VALIDITY = 1000 * 60 * 5; 
+	
 	public String extractUsername(String token) {
 		return extractClaim(token, Claims::getSubject);
 	}
