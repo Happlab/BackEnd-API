@@ -43,7 +43,7 @@ import co.edu.unicauca.APIHappLab.service.persona_service;
 @RequestMapping("/contenido")
 public class contenido_controller {
 	
-		private Path carpeta_root = Paths.get(new FileSystemResource("").getFile().getAbsolutePath()+"\\Files");
+		private Path carpeta_root = Paths.get("./Files");
 		@Autowired
 		private contenido_service service;
 		@Autowired

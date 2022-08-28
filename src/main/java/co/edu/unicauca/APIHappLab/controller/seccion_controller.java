@@ -30,7 +30,7 @@ import co.edu.unicauca.APIHappLab.service.seccion_service;
 @RequestMapping("/seccion")
 public class seccion_controller {
 
-	private Path carpeta_root = Paths.get(new FileSystemResource("").getFile().getAbsolutePath()+"\\ContenidoSeccion");
+	private Path carpeta_root = Paths.get("./ContenidoSeccion");
 	@Autowired
 	private seccion_service service;
 	

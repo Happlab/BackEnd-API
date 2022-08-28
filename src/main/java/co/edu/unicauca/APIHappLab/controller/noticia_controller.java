@@ -37,7 +37,7 @@ import co.edu.unicauca.APIHappLab.service.noticia_service;
 public class noticia_controller {
 	@Autowired
 	private noticia_service service;
-	private Path carpeta_root = Paths.get(new FileSystemResource("").getFile().getAbsolutePath() + "\\Noticias");
+	private Path carpeta_root = Paths.get("./Noticias");
 
 	@GetMapping("/")
 	public ResponseEntity<?> readAll() {
